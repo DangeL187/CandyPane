@@ -5,3 +5,5 @@
 <h1 align="center">CandyPane</h1>
 
 CandyPane is an application that provides the user with the most convenient way to track their self-tasks.
+
+## [Contributing](https://github.com/DangeL187/CandyPane/blob/main/Contributing.md)
