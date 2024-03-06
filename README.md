@@ -6,4 +6,6 @@
 
 CandyPane is an application that provides the user with the most convenient way to track their self-tasks.
 
+## [Documentation]() (soon)
+
 ## [Contributing](https://github.com/DangeL187/CandyPane/blob/main/Contributing.md)
