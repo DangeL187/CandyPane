@@ -6,6 +6,37 @@
 #include "POINT.hpp"
 #include "SIZE.hpp"
 
+/*! @class candypane::TaskPane
+    @brief FFFFF
+*/
+/*! @fn void candypane::ListPane::resize(int width, int height)
+    @brief FFFFF
+    @param width FFFFFFF
+    @param height FFFFFF
+*/
+/*! @fn void candypane::ListPane::resize(const SIZE& new_size)
+    @brief FFFFF
+    @param new_size FFFFFFF
+*/
+/*! @fn void candypane::ListPane::setName(const std::string& new_name)
+    @brief FFFFF
+    @param new_name FFFFFFF
+*/
+/*! @fn void candypane::ListPane::void setPosition(int x, int y)
+    @brief FFFFF
+    @param x FFFFFFF
+    @param y FFFFFFF
+*/
+/*! @fn void candypane::ListPane::setPosition(const POINT& new_position)
+    @brief FFFFF
+    @param new_position FFFFFFF
+*/
+/*! @fn void candypane::ListPane::setText(const std::string& text)
+    @brief FFFFF
+    @param text FFFFFFF
+*/
+
+
 class TaskPane {
 public:
     TaskPane() = default;
