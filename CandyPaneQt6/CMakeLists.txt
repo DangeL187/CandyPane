@@ -1,26 +1,35 @@
 cmake_minimum_required(VERSION 3.26)
-project(CandyPane)
+project(CandyPaneQt)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "D:/QT/6.6.2/mingw_64/lib/cmake/Qt6")
+set(CANDYPANE_ROOT "../CandyPane")
+set(CANDYPANE_LIBS CandyPane)
 
+set(CMAKE_PREFIX_PATH "D:/QT/6.6.2/mingw_64/lib/cmake/Qt6")
 find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
+set(QT_LIBS Qt6::Core Qt6::Gui Qt6::Widgets)
 
 include_directories(include)
-include_directories(../include)
 
-file(GLOB HEADER_FILES "../include/**/*.hpp" "../include/*.hpp" "include/**/*.hpp" "include/*.hpp")
-file(GLOB SOURCE_FILES "../src/**/*.cpp" "../src/*.cpp" "src/**/*.cpp" "src/*.cpp")
+# Configure CandyPane Core:
+include_directories(${CANDYPANE_ROOT}/include)
+link_directories(${CANDYPANE_ROOT}/build)
 
-add_executable(CandyPane ${SOURCE_FILES} ${HEADER_FILES}
-        include/TaskPaneWidget.hpp
-        include/DraggableTaskWidget.hpp
-        include/ListPaneWidget.hpp)
-target_link_libraries(CandyPane Qt6::Core Qt6::Gui Qt6::Widgets)
+file(GLOB HEADER_FILES  "${CANDYPANE_ROOT}/include/**/*.hpp"
+                        "${CANDYPANE_ROOT}/include/*.hpp"
+                        "include/**/*.hpp"
+                        "include/*.hpp")
+file(GLOB SOURCE_FILES  "src/**/*.cpp"
+                        "src/*.cpp")
+
+add_executable(CandyPaneQt ${SOURCE_FILES} ${HEADER_FILES})
+target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${QT_LIBS})
+
+# Configure QT6:
 
 if (WIN32)
     set(DEBUG_SUFFIX)

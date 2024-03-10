@@ -1,20 +1,19 @@
 #ifndef CANDYPANE_TASKPANEWIDGET_HPP
 #define CANDYPANE_TASKPANEWIDGET_HPP
 
-#include "../../include/TaskPane.hpp"
+#include "../../include/Task/Task.hpp"
+#include "POINT.hpp"
 
-class TaskPaneWidget: public TaskPane {
+class TaskPaneWidget: public candypane::Task {
 public:
     TaskPaneWidget(const std::string& name, const POINT& position) {
         setName(name);
-        setPosition(position);
+        //setPosition(position);
     }
     TaskPaneWidget(const std::string& name, int x, int y) {
         setName(name);
-        setPosition(x, y);
+        ///setPosition(x, y);
     }
-private:
-
 };
 
 #endif //CANDYPANE_TASKPANEWIDGET_HPP
