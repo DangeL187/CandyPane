@@ -1,66 +1,51 @@
-#ifndef CANDYPANE_TASKPANE_HPP
-#define CANDYPANE_TASKPANE_HPP
+#ifndef CANDYPANE_TASK_HPP
+#define CANDYPANE_TASK_HPP
 
 #include <string>
-#include <vector>
-#include "POINT.hpp"
-#include "SIZE.hpp"
 
-/*! @class candypane::TaskPane
-    @brief FFFFF
+/*! @class candypane::Task
+    @brief Class that represents one specific task
 */
-/*! @fn void candypane::ListPane::resize(int width, int height)
-    @brief FFFFF
-    @param width FFFFFFF
-    @param height FFFFFF
+/*! @fn candypane::Task()
+    @brief Default constructor
 */
-/*! @fn void candypane::ListPane::resize(const SIZE& new_size)
-    @brief FFFFF
-    @param new_size FFFFFFF
+/*! @fn std::string candypane::Task::getName()
+    @brief Return name of the Task
+    @return Name of the task
 */
-/*! @fn void candypane::ListPane::setName(const std::string& new_name)
-    @brief FFFFF
-    @param new_name FFFFFFF
+/*! @fn std::string candypane::Task::getText()
+    @brief Return text of the Task
+    @return Text of the task
 */
-/*! @fn void candypane::ListPane::void setPosition(int x, int y)
-    @brief FFFFF
-    @param x FFFFFFF
-    @param y FFFFFFF
+/*! @fn void candypane::Task::setName(const std::string& new_name)
+    @brief Set name of the Task
+    @param new_name new name of the Task
 */
-/*! @fn void candypane::ListPane::setPosition(const POINT& new_position)
-    @brief FFFFF
-    @param new_position FFFFFFF
-*/
-/*! @fn void candypane::ListPane::setText(const std::string& text)
-    @brief FFFFF
-    @param text FFFFFFF
+/*! @fn void candypane::Task::setText(const std::string& text)
+    @brief Set text of the Task
+    @param text text of the Task to set
 */
 
+namespace candypane {
 
-class TaskPane {
-public:
-    TaskPane() = default;
-protected:
-    void resize(int width, int height);
-    void resize(const SIZE& new_size);
-    void setName(const std::string& new_name);
-    void setPosition(int x, int y);
-    void setPosition(const POINT& new_position);
-    void setText(const std::string& text);
-    [[nodiscard]] std::string getName() const;
-    [[nodiscard]] POINT getPosition() const;
-    [[nodiscard]] SIZE getSize() const;
-    [[nodiscard]] std::string getText() const;
+    class Task {
+    public:
+        Task() = default;
 
-    bool operator==(const TaskPane& other) const {
-        return (_name == other.getName() && _text == other.getText() && _size == other.getSize() && _position == other.getPosition());
-    }
-private:
-    std::string _name;
-    POINT       _position;
-    SIZE        _size;
-    std::string _text;
-    int         _transparency = 255; // TODO: alpha?
-};
+        [[nodiscard]] std::string getName() const;
+        [[nodiscard]] std::string getText() const;
+        void setName(const std::string &new_name);
+        void setText(const std::string &text);
 
-#endif //CANDYPANE_TASKPANE_HPP
+        bool operator==(const Task &other) const {
+            return (_name == other.getName() && _text == other.getText());
+        }
+
+    private:
+        std::string _name;
+        std::string _text;
+    };
+
+}
+
+#endif //CANDYPANE_TASK_HPP

@@ -1,73 +1,60 @@
-#ifndef CANDYPANE_LISTPANE_HPP
-#define CANDYPANE_LISTPANE_HPP
+#ifndef CANDYPANE_TASKLIST_HPP
+#define CANDYPANE_TASKLIST_HPP
 
-#include "TaskPane.hpp"
+#include <vector>
+#include "Task.hpp"
 
-/*! @class candypane::ListPane
-    @brief FFFFF
+/*! @class candypane::TaskList
+    @brief Class used to store and manage Tasks
+    @det TaskLists main purpose is only to manage Tasks
+    @det Unlike Tasks, TaskList object do not have names or any identifiers
+    @det The only way to compare TaskList objects is to compare their vectors of Tasks
 */
-/*! @fn candypane::ListPane()
+/*! @fn candypane::TaskList()
     @brief Default constructor 
 */
-/*! @fn void candypane::ListPane::addTaskPane(const TaskPane& new_task_pane)
-    @brief FFFFF
-    @param new_task_pane FFFFFFF
+/*! @fn void candypane::TaskList::addTask(const Task& new_task)
+    @brief Adds new Task
+    @param new_task new Task object
 */
-/*! @fn TaskPane& candypane::ListPane::getTaskPaneById(int id)
-    @brief FFFFF
-    @param id FFFFFFF
-    @return FFFFFFF
+/*! @fn std::vector<Task> candypane::TaskList::getTasks()
+    @brief Return the vector with all Tasks
+    @return Vector of Tasks
 */
-/*! @fn void candypane::ListPane::removeTaskPane(const TaskPane& task_pane_to_remove)
-    @brief FFFFF
-    @param task_pane_to_remove FFFFFFF
+/*! @fn Task& candypane::TaskList::getTaskById(int id)
+    @brief Return specific Task by it's index(id)
+    @param id index of the Task to get
+    @return Task object
 */
-/*! @fn void candypane::ListPane::removeTaskPaneById(int id);
-    @brief FFFFF
-    @param id FFFFFFF
+/*! @fn void candypane::TaskList::removeTask(const Task& task_to_remove)
+    @brief Remove all Tasks that match the passed Task object.
+    @param task_to_remove Task object to remove
 */
-/*! @fn void candypane::ListPane::resize(int width, int height);
-    @brief FFFFF
-    @param width FFFFFFF
-    @param height FFFFFFF
-*/
-/*! @fn void candypane::ListPane::resize(const SIZE& new_size)
-    @brief FFFFF
-    @param new_size FFFFFFF
-*/
-/*! @fn void candypane::ListPane::setName(const std::string& new_name)
-    @brief FFFFF
-    @param new_name FFFFFFF
-*/
-/*! @fn void candypane::ListPane::setPosition(int x, int y);
-    @brief FFFFF
-    @param x FFFFFFF
-    @param y FFFFFFF
-*/
-/*! @fn void candypane::ListPane::setPosition(const POINT& new_position)
-    @brief FFFFF
-    @param new_position FFFFFFF
+/*! @fn void candypane::TaskList::removeTaskById(int id);
+    @brief Removes Task by it's index(id)
+    @param id index of the Task to remove
 */
 
-class ListPane {
-public:
-    ListPane() = default;
-protected:
-    void addTaskPane(const TaskPane& new_task_pane);
-    TaskPane& getTaskPaneById(int id);
-    void removeTaskPane(const TaskPane& task_pane_to_remove);
-    void removeTaskPaneById(int id);
+namespace candypane {
 
-    void resize(int width, int height);
-    void resize(const SIZE& new_size);
-    void setName(const std::string& new_name);
-    void setPosition(int x, int y);
-    void setPosition(const POINT& new_position);
-private:
-    std::string             _name;
-    POINT                   _position;
-    SIZE                    _size;
-    std::vector<TaskPane>   _task_panes;
-};
+    class TaskList {
+    public:
+        TaskList() = default;
 
-#endif //CANDYPANE_LISTPANE_HPP
+        void addTask(const Task& new_task);
+        [[nodiscard]] std::vector<Task> getTasks() const;
+        Task& getTaskById(int id);
+        void removeTask(const Task& task_to_remove);
+        void removeTaskById(int id);
+
+        bool operator==(const TaskList &other) const {
+            return (_tasks == other.getTasks());
+        }
+
+    private:
+        std::vector<Task>   _tasks;
+    };
+
+}
+
+#endif //CANDYPANE_TASKLIST_HPP
