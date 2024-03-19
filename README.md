@@ -8,6 +8,6 @@ CandyPane is an application that provides the user with the most convenient way 
 
 ## [Documentation]() (soon)
 
-## [Contributing](https://github.com/DangeL187/CandyPane/blob/main/Contributing.md)
-
 ## [Changelog](https://github.com/DangeL187/CandyPane/blob/main/Changelog.md)
+
+## [Contributing](https://github.com/DangeL187/CandyPane/blob/main/Contributing.md)
