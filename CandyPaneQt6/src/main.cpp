@@ -1,7 +1,7 @@
-#include <iostream>
+#include "Application.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
+    Application app(argc, argv);
 
-
-    return 0;
+    return QApplication::exec();
 }
