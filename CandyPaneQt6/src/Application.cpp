@@ -44,9 +44,7 @@ void Application::initWindow() {
     _window->show();
 }
 
-void Application::updateWidth(int window_width) {
+void Application::updateWidth(int window_width) { // BUGS: bad resizing, priority: low
     _main_category->setMinimumWidth(window_width-_left_panel->maximumWidth());
     _main_category->setMaximumWidth(window_width-_left_panel->minimumWidth());
-
-    _left_panel->updateWidth();
 }

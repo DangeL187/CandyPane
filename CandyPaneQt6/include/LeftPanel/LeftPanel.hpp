@@ -13,8 +13,6 @@
 class LeftPanel: public QFrame {
 public:
     explicit LeftPanel(candypane::Category* main_task_list);
-
-    void updateWidth();
 private:
     /*=========================LeftPanel===========================*/
     QVBoxLayout                             _left_panel_layout;

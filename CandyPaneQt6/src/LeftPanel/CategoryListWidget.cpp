@@ -29,9 +29,9 @@ void CategoriesListWidget::addCategoryWidget() {
     }
 }
 
-void CategoriesListWidget::deselectAll() {
+void CategoriesListWidget::deselectAll(bool background_only) {
     for (int i = 0; i < count()-1; i++) {
-        qobject_cast<CategoryWidget*>(layout()->itemAt(i)->widget())->select(false);
+        qobject_cast<CategoryWidget*>(layout()->itemAt(i)->widget())->select(false, background_only);
     }
 }
 

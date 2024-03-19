@@ -28,7 +28,7 @@ public:
     QWidget* getIcon() {
         return _icon;
     }
-    void select(bool value);
+    void select(bool value, bool background_only = false);
     void setEditNameFocus();
     void setId(unsigned long long int id);
     void setWidgetVisible(bool value);
@@ -64,6 +64,8 @@ private:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    bool event(QEvent* event) override;
 
     //void updateIcon();
     void updateName();

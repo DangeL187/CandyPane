@@ -27,6 +27,7 @@ protected:
     }
 
     void changeEvent(QEvent* event) override {
+        QWidget::changeEvent(event);
         if (event->type() == QEvent::WindowStateChange) {
             _before_fullscreen[1] = _before_fullscreen[0];
             if (isMaximized()) {
@@ -43,7 +44,6 @@ protected:
                 t_owner->updateWidth(width());
             }
         }
-        QWidget::changeEvent(event);
     }
 private:
     std::vector<QSize>  _before_fullscreen;

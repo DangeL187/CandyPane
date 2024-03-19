@@ -19,7 +19,7 @@ public:
     }
 private slots:
     void handleSplitterMoved(int pos, int index) {
-        t_owner->updateWidth(t_owner->getWindowWidth());
+        //t_owner->updateWidth(t_owner->getWindowWidth());
     }
 private:
     T*  t_owner;
@@ -34,8 +34,7 @@ public:
     Application(int argc, char *argv[]);
 
     int getWindowWidth();
-    void updateWidth(int window_width);
-
+    void updateWidth(int window_width); // TODO: in debug process, when done - delete
 private:
     /*========================Application========================*/
     QApplication                                    _application;

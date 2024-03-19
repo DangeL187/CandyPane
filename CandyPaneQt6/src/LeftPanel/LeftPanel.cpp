@@ -33,9 +33,3 @@ void LeftPanel::initModules(candypane::Category* main_task_list) {
     _categories_list_widget = std::make_shared<CategoriesListWidget>(&_scroll_area_widget, main_task_list);
     _new_list_widget = std::make_shared<NewListWidget>(_categories_list_widget.get());
 }
-
-void LeftPanel::updateWidth() {
-    std::cout << "updating width " << width() << "\n";
-
-    _categories_list_widget->updateCategoryWidgets();
-}

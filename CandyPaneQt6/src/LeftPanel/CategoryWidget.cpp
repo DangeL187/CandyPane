@@ -31,6 +31,9 @@ CategoryWidget::CategoryWidget(CategoriesListWidget* categories_list_widget, uns
     initTasksAmount();
     initLayout();
     initEditName();
+
+    setAttribute(Qt::WA_Hover);
+    setMouseTracking(true);
 }
 
 void CategoryWidget::exec() {
@@ -158,14 +161,17 @@ void CategoryWidget::mouseReleaseEvent(QMouseEvent* event) {
     }
 }
 
-void CategoryWidget::select(bool value) {
-    if (value) {
-        _select->setStyleSheet("background-color: rgb(118, 185, 237);");
-        _select_background->setColor(49, 49, 49);
-    } else {
-        _select->setStyleSheet("background-color: transparent;");
-        _select_background->setColor();
+void CategoryWidget::resizeEvent(QResizeEvent* event) {
+    _select_background->setFixedWidth(qobject_cast<QWidget*>(parent()->parent())->width() - 18); // 18 is padding
+}
+
+void CategoryWidget::select(bool value, bool background_only) {
+    if (!background_only) {
+        if (value) _select->setStyleSheet("background-color: rgb(118, 185, 237);");
+        else _select->setStyleSheet("background-color: transparent;");
     }
+    if (value) _select_background->setColor(49, 49, 49);
+    else if (_select->styleSheet() == "background-color: transparent;") _select_background->setColor();
 }
 
 void CategoryWidget::setEditNameFocus() {
@@ -201,7 +207,18 @@ void CategoryWidget::updateWidget() {
     //updateIcon();
     updateName();
     updateTasksAmount();
-    //std::cout << qobject_cast<QWidget*>(parent()->parent())->width() - 18 << " parent\n";
-    //std::cout << _select->width() + _icon->width() + _name->width() + _tasks_amount->width() + 18 << " all\n";
-    _select_background->setFixedWidth(qobject_cast<QWidget*>(parent()->parent())->width() - 18); // 18 is padding
+}
+
+bool CategoryWidget::event(QEvent* event) {
+    if (event->type() == QEvent::HoverMove) {
+        if (_select->styleSheet().toStdString() == "background-color: transparent;") {
+            _categories_list_widget->deselectAll(true);
+            _select_background->setColor(49, 49, 49);
+        } else {
+            _categories_list_widget->deselectAll(true);
+        }
+        return true;
+    }
+
+    return QFrame::event(event);
 }

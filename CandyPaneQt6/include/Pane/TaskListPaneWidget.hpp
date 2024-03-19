@@ -8,9 +8,9 @@ struct QVBoxLayout{};
 
 class TaskListPaneWidget: public candypane::TaskList {
 public:
-    TaskListPaneWidget(const std::string &name, const POINT &position);
+    TaskListPaneWidget(const std::string& name, const POINT& position);
 
-    TaskListPaneWidget(const std::string &name, int x, int y);
+    TaskListPaneWidget(const std::string& name, int x, int y);
 
     void onDraggableTaskWidgetDrag(); // fake, calls createTaskPaneWidget
 

@@ -1,7 +1,7 @@
 #ifndef CANDYPANE_DRAGGABLETASKWIDGET_HPP
 #define CANDYPANE_DRAGGABLETASKWIDGET_HPP
 
-#include "../../include/Task/TaskList.hpp"
+#include <Task/TaskList.hpp>
 
 struct QWidget{};
 

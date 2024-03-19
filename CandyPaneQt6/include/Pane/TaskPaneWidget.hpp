@@ -1,7 +1,7 @@
 #ifndef CANDYPANE_TASKPANEWIDGET_HPP
 #define CANDYPANE_TASKPANEWIDGET_HPP
 
-#include "../../include/Task/Task.hpp"
+#include <Task/Task.hpp>
 #include "POINT.hpp"
 
 class TaskPaneWidget: public candypane::Task {

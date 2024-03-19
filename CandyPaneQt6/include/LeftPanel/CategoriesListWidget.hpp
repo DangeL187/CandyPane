@@ -10,7 +10,7 @@ public:
     explicit CategoriesListWidget(QWidget* parent_widget, candypane::Category* main_task_list);
 
     void addCategoryWidget();
-    void deselectAll();
+    void deselectAll(bool background_only = false);
     void relocateCategoryWidget(unsigned int new_index, unsigned int category_id);
     void updateCategoryWidgets();
 private:
