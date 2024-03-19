@@ -7,7 +7,7 @@
     @brief Container for Category objects. Stores pointer to the main category.
 */
 /*! @fn void candypane::CategoriesList(Category* main_category)
-    @brief Adds new Task
+    @brief Creates CategoreisList and sets pointer to the main Category object
     @param main_category Pointer to the main Category object
 */
 /*! @fn void candypane::CategoriesList::addCategory(const Category& new_category)
