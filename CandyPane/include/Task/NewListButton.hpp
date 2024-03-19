@@ -4,6 +4,16 @@
 #include <string>
 #include "CategoriesList.hpp"
 
+/*! @class candypane::NewListButton
+    @brief Class used to add new Category object. Stores a pointer to the CategoriesList object
+*/
+/*! @fn candypane::NewListButton(CategoriesList* categories_list)
+    @brief Creates NewListButton object and sets pointer to the parent categories list
+*/
+//action
+//getText
+//setText
+
 namespace candypane {
 
     class NewListButton {
