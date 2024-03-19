@@ -41,7 +41,7 @@ namespace candypane {
             return (_name == other.getName() && _text == other.getText());
         }
 
-    private:
+    protected:
         std::string _name;
         std::string _text;
     };

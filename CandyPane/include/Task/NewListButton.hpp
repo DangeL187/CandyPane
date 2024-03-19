@@ -14,7 +14,7 @@ namespace candypane {
         [[nodiscard]] std::string getText() const;
         void setText(const std::string& text);
 
-    private:
+    protected:
         CategoriesList* _categories_list;
         std::string     _text;
     };
