@@ -1,7 +1,7 @@
 #include <iostream> // todo: delete
-#include "LeftPanel/CategoryWidget.hpp"
-#include "LeftPanel/CategoriesListWidget.hpp"
-#include "LeftPanel/LineEditCategoryName.hpp"
+#include "LeftPanel/Category/CategoryWidget.hpp"
+#include "LeftPanel/Category/CategoriesListWidget.hpp"
+#include "LeftPanel/Category/LineEditCategoryName.hpp"
 #include "LeftPanel/OverlayDraggableWidget.hpp"
 
 #include <QPainter>
@@ -160,7 +160,7 @@ void CategoryWidget::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void CategoryWidget::resizeEvent(QResizeEvent* event) {
-    _select_background->setFixedWidth(qobject_cast<QWidget*>(parent()->parent())->width() - 18); // 18 is padding
+    _select_background->setFixedWidth(width());
     updateName();
 }
 
@@ -205,7 +205,7 @@ void CategoryWidget::updateName() {
 
     int name_width = _name->fontMetrics().boundingRect(_name->text()).width();
     int tasks_width = _tasks_amount->fontMetrics().boundingRect(_tasks_amount->text()).width();
-    int max_size = _select_background->width() - _select->width() - _icon->width() - tasks_width - 54;
+    int max_size = width() - _select->width() - _icon->width() - tasks_width - 54;
 
     if (name_width > max_size) {
         while (new_text.fontMetrics().boundingRect(new_text.text()).width() > max_size) {

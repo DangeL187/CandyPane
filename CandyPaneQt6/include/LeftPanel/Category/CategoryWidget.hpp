@@ -17,6 +17,10 @@ class CategoriesListWidget;
 class LineEditCategoryName;
 class OverlayDraggableWidget;
 
+class DraggableWidget {
+
+};
+
 class CategoryWidget: public QFrame {
 Q_OBJECT
 public:

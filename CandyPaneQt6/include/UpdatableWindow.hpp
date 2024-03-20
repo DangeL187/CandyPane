@@ -1,18 +1,29 @@
-#ifndef CANDYPANEQT_UPDATABLEWIDGETWINDOW_HPP
-#define CANDYPANEQT_UPDATABLEWIDGETWINDOW_HPP
+#ifndef CANDYPANEQT_UPDATABLEWINDOW_HPP
+#define CANDYPANEQT_UPDATABLEWINDOW_HPP
 
-#include <QWidget>
+#include <QMainWindow>
 
 #include <iostream>
 
 template <typename T>
-class UpdatableWindow: public QWidget {
+class UpdatableWindow: public QMainWindow { //TODO: create custom title bar, priority slightly low
 public:
     explicit UpdatableWindow(T* owner) {
         t_owner = owner;
         _before_fullscreen_size = {size()};
+        setAttribute(Qt::WA_Hover);
+        setMouseTracking(true);
+        setWindowIcon(QIcon("../img/logo.png"));
     }
 protected:
+    bool event(QEvent* event) override {
+        if (event->type() == QEvent::HoverMove) {
+            t_owner->checkHover();
+            return true;
+        }
+        return QMainWindow::event(event);
+    }
+
     void resizeEvent(QResizeEvent* event) override {
         auto* e = reinterpret_cast<QEvent *>(event);
         if (e->type() != QEvent::WindowStateChange) {
@@ -27,7 +38,7 @@ protected:
     }
 
     void changeEvent(QEvent* event) override {
-        QWidget::changeEvent(event);
+        QMainWindow::changeEvent(event);
         if (event->type() == QEvent::WindowStateChange) {
             _before_fullscreen_size[1] = _before_fullscreen_size[0];
             if (isMaximized()) {
@@ -46,8 +57,8 @@ protected:
         }
     }
 private:
-    std::vector<QSize>  _before_fullscreen_size;
-    T*                  t_owner;
+    std::vector<QSize>              _before_fullscreen_size;
+    T*                              t_owner;
 };
 
-#endif //CANDYPANEQT_UPDATABLEWIDGETWINDOW_HPP
+#endif //CANDYPANEQT_UPDATABLEWINDOW_HPP

@@ -33,7 +33,7 @@ class Application {
 public:
     Application(int argc, char *argv[]);
 
-    int getWindowWidth();
+    void checkHover();
     void updateWidth(int window_width);
 private:
     /*========================Application========================*/

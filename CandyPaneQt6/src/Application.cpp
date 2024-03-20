@@ -1,16 +1,17 @@
 #include "Application.hpp"
 
 Application::Application(int argc, char *argv[]): _application(argc, argv) {
+    //_application.setStyleSheet("background-color: rgb(49, 49, 49);");
     initLeftPanel();
     initMainCategory();
     initSplitter();
     initMainLayout();
     initWindow();
-    updateWidth(getWindowWidth());
+    updateWidth(_window->width());
 }
 
-int Application::getWindowWidth() {
-    return _window->width();
+void Application::checkHover() {
+    _left_panel->checkHover();
 }
 
 void Application::initLeftPanel() {
@@ -26,6 +27,7 @@ void Application::initMainCategory() {
 void Application::initMainLayout() {
     _main_layout = std::make_shared<QHBoxLayout>(_window.get());
     _main_layout->addWidget(_splitter.get());
+    _main_layout->setContentsMargins(0, 0, 0, 0);
 }
 
 void Application::initSplitter() {
@@ -40,6 +42,10 @@ void Application::initSplitter() {
 void Application::initWindow() {
     _window = std::make_shared<UpdatableWindow<Application>>(this);
     _window->resize(600, 400);
+
+    auto* layout = _window->layout();
+    delete layout;
+
     _window->setLayout(_main_layout->layout());
     _window->show();
 }

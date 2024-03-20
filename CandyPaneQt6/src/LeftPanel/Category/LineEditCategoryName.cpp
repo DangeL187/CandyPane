@@ -1,4 +1,4 @@
-#include "LeftPanel/LineEditCategoryName.hpp"
+#include "LeftPanel/Category/LineEditCategoryName.hpp"
 
 void LineEditCategoryName::focusOutEvent(QFocusEvent* event) {
     _category_widget->exec();

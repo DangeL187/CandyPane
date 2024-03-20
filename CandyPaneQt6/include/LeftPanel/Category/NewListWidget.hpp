@@ -5,7 +5,6 @@
 #include <QPushButton>
 #include <Task/NewListButton.hpp>
 #include "CategoriesListWidget.hpp"
-#include "NewListDialog.hpp"
 
 class NewListWidget: public QPushButton, public candypane::NewListButton {
 public:
@@ -18,7 +17,6 @@ public:
 
 private:
     CategoriesListWidget*   _categories_list_widget; // TODO: doc it
-    NewListDialog           _new_list_dialog; // TODO: doc it too
 };
 
 #endif //CANDYPANEQT_NEWLISTWIDGET_HPP

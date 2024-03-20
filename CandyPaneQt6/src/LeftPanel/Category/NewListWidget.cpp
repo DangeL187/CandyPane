@@ -1,4 +1,4 @@
-#include "LeftPanel/NewListWidget.hpp"
+#include "LeftPanel/Category/NewListWidget.hpp"
 
 void NewListWidget::addCategory() {
     action("_");

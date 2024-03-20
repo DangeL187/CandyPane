@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QLabel>
-#include "CategoryWidget.hpp"
+#include "Category/CategoryWidget.hpp"
 
 class OverlayDraggableWidget: public QDialog {
     Q_OBJECT

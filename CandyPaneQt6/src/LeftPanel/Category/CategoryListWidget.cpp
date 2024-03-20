@@ -1,6 +1,6 @@
 #include <iostream> // todo: delete
 
-#include "LeftPanel/CategoriesListWidget.hpp"
+#include "LeftPanel/Category/CategoriesListWidget.hpp"
 
 CategoriesListWidget::CategoriesListWidget(QWidget* parent_widget, candypane::Category* main_task_list):
         QVBoxLayout(parent_widget), candypane::CategoriesList(main_task_list)
@@ -37,6 +37,7 @@ void CategoriesListWidget::deselectAll(bool background_only) {
 
 void CategoriesListWidget::initLayout() {
     auto* spacer = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    setContentsMargins(0, 10, 0, 10);
     setSpacing(10);
     addItem(spacer);
 }

@@ -7,12 +7,14 @@
 #include <QGridLayout>
 
 #include "AccountWidget.hpp"
-#include "CategoriesListWidget.hpp"
-#include "NewListWidget.hpp"
+#include "Category/CategoriesListWidget.hpp"
+#include "Category/NewListWidget.hpp"
 
 class LeftPanel: public QFrame {
 public:
     explicit LeftPanel(candypane::Category* main_task_list);
+
+    void checkHover();
 private:
     /*=========================LeftPanel===========================*/
     QVBoxLayout                             _left_panel_layout;
@@ -27,7 +29,6 @@ private:
     /*=============================================================*/
 
     /*=========================initializers========================*/
-    bool event(QEvent* event) override;
     void initCategoriesListScrollArea();
     void initLayout();
     void initModules(candypane::Category* main_task_list);
