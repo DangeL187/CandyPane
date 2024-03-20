@@ -27,13 +27,10 @@ CategoryWidget::CategoryWidget(CategoriesListWidget* categories_list_widget, uns
 {
     initSelect();
     initIcon();
-    initName();
     initTasksAmount();
+    initName();
     initLayout();
     initEditName();
-
-    setAttribute(Qt::WA_Hover);
-    setMouseTracking(true);
 }
 
 void CategoryWidget::exec() {
@@ -74,6 +71,7 @@ unsigned long long int CategoryWidget::getId() const {
 
 void CategoryWidget::initEditName() {
     _edit_name = new LineEditCategoryName(this);
+    _edit_name->setStyleSheet("font-size: 14px;");
 
     _layout->removeWidget(_name);
     _layout->insertWidget(2, _edit_name);
@@ -163,6 +161,7 @@ void CategoryWidget::mouseReleaseEvent(QMouseEvent* event) {
 
 void CategoryWidget::resizeEvent(QResizeEvent* event) {
     _select_background->setFixedWidth(qobject_cast<QWidget*>(parent()->parent())->width() - 18); // 18 is padding
+    updateName();
 }
 
 void CategoryWidget::select(bool value, bool background_only) {
@@ -196,29 +195,35 @@ void CategoryWidget::setWidgetVisible(bool value) {
 }
 
 void CategoryWidget::updateName() {
+    _name->setStyleSheet("font-size: 14px;");
     _name->setText(self().getName().c_str());
+
+    QLabel new_text;
+    new_text.setStyleSheet("font-size: 14px;");
+    new_text.setText((self().getName() + "...").c_str());
+    new_text.setFont(_name->font());
+
+    int name_width = _name->fontMetrics().boundingRect(_name->text()).width();
+    int tasks_width = _tasks_amount->fontMetrics().boundingRect(_tasks_amount->text()).width();
+    int max_size = _select_background->width() - _select->width() - _icon->width() - tasks_width - 54;
+
+    if (name_width > max_size) {
+        while (new_text.fontMetrics().boundingRect(new_text.text()).width() > max_size) {
+            std::string str = new_text.text().toStdString();
+            str.erase(str.length() - 4, 1);
+            new_text.setText(str.c_str());
+        }
+        _name->setText(new_text.text());
+    }
 }
 
 void CategoryWidget::updateTasksAmount() {
     _tasks_amount->setText(std::to_string(self().getTasks().size()).c_str());
+    _tasks_amount->setStyleSheet("font-size: 14px;");
 }
 
 void CategoryWidget::updateWidget() {
     //updateIcon();
-    updateName();
     updateTasksAmount();
-}
-
-bool CategoryWidget::event(QEvent* event) {
-    if (event->type() == QEvent::HoverMove) {
-        if (_select->styleSheet().toStdString() == "background-color: transparent;") {
-            _categories_list_widget->deselectAll(true);
-            _select_background->setColor(49, 49, 49);
-        } else {
-            _categories_list_widget->deselectAll(true);
-        }
-        return true;
-    }
-
-    return QFrame::event(event);
+    updateName();
 }

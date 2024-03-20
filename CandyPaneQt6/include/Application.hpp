@@ -8,7 +8,7 @@
 
 #include "UpdatableWindow.hpp"
 
-//splitter:
+//splitter: // TODO: in debug process, when done - delete
 
 template <typename T>
 class UpdatableSplitter: public QSplitter {
@@ -34,7 +34,7 @@ public:
     Application(int argc, char *argv[]);
 
     int getWindowWidth();
-    void updateWidth(int window_width); // TODO: in debug process, when done - delete
+    void updateWidth(int window_width);
 private:
     /*========================Application========================*/
     QApplication                                    _application;

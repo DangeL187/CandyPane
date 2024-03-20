@@ -17,10 +17,10 @@ private:
     /*=================================================*/
 
     /*====================contents=====================*/
-    QWidget*                        _select{};
-    QWidget*                        _icon{};
-    QLabel*                         _name{};
-    QLabel*                         _tasks_amount{};
+    std::shared_ptr<QWidget>        _select;
+    std::shared_ptr<QWidget>        _icon;
+    std::shared_ptr<QLabel>         _name;
+    std::shared_ptr<QLabel>         _tasks_amount;
     /*=================================================*/
 
     void initIcon();

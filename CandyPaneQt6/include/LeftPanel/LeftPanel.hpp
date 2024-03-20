@@ -27,6 +27,7 @@ private:
     /*=============================================================*/
 
     /*=========================initializers========================*/
+    bool event(QEvent* event) override;
     void initCategoriesListScrollArea();
     void initLayout();
     void initModules(candypane::Category* main_task_list);

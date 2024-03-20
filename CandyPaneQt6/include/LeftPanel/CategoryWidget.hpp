@@ -36,19 +36,19 @@ public:
 
 private:
     /*===================CategoryWidget====================*/
-    CategoriesListWidget*   _categories_list_widget;
-    QPoint                  _drag_start_pos;
-    OverlayDraggableWidget* _dragged_object = nullptr;
-    unsigned long long int  _id;
-    QHBoxLayout*            _layout{};
+    CategoriesListWidget*       _categories_list_widget;
+    QPoint                      _drag_start_pos;
+    OverlayDraggableWidget*     _dragged_object = nullptr;
+    unsigned long long int      _id;
+    QHBoxLayout*                _layout{};
     /*=====================================================*/
 
     /*======================contents=======================*/
-    QWidget*                    _select{};
-    std::shared_ptr<Background> _select_background;
     LineEditCategoryName*       _edit_name{};
     QWidget*                    _icon{};
     QLabel*                     _name{};
+    QWidget*                    _select{};
+    std::shared_ptr<Background> _select_background;
     QLabel*                     _tasks_amount{};
     /*=====================================================*/
 
@@ -65,7 +65,6 @@ private:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
-    bool event(QEvent* event) override;
 
     //void updateIcon();
     void updateName();

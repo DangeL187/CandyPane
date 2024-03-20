@@ -7,6 +7,24 @@ LeftPanel::LeftPanel(candypane::Category* main_task_list) {
 
     setMinimumWidth(1920/9);
     setMaximumWidth(1920/5);
+
+    setAttribute(Qt::WA_Hover);
+    setMouseTracking(true);
+}
+
+bool LeftPanel::event(QEvent* event) {
+    if (event->type() == QEvent::HoverMove) {
+        for (int i = 0; i < _categories_list_widget->count()-1; i++) {
+            auto category_widget = qobject_cast<CategoryWidget*>(_categories_list_widget->itemAt(i)->widget());
+            if (category_widget->underMouse()) {
+                category_widget->select(true, true);
+            } else {
+                category_widget->select(false, true);
+            }
+        }
+        return true;
+    }
+    return QFrame::event(event);
 }
 
 void LeftPanel::initCategoriesListScrollArea() {
