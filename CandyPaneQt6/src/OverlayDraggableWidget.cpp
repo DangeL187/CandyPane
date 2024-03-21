@@ -1,20 +1,22 @@
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOption>
-#include "LeftPanel/OverlayDraggableWidget.hpp"
 
-OverlayDraggableWidget::OverlayDraggableWidget(CategoryWidget& category_widget): QDialog(nullptr) {
+#include "DraggableWidget.hpp"
+#include "OverlayDraggableWidget.hpp"
+
+OverlayDraggableWidget::OverlayDraggableWidget(DraggableWidget& draggable_widget): QDialog(nullptr) {
     setWindowOpacity(0.7);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
     initSelect();
     initIcon();
-    initName(category_widget);
-    initTasksAmount(category_widget);
+    initName();
+    initTasksAmount();
     initLayout();
 
-    resize(category_widget.size());
+    resize(draggable_widget.size());
 }
 
 void OverlayDraggableWidget::initIcon() {
@@ -33,8 +35,9 @@ void OverlayDraggableWidget::initLayout() {
     _layout->addWidget(_tasks_amount.get());
 }
 
-void OverlayDraggableWidget::initName(CategoryWidget& category_widget) {
-    _name = std::make_shared<QLabel>(category_widget.self().getName().c_str());
+void OverlayDraggableWidget::initName() {
+    //_name = std::make_shared<QLabel>(category_widget.self().getName().c_str());
+    _name = std::make_shared<QLabel>("temp name");
     _name->setStyleSheet("font-size: 14px;");
 }
 
@@ -44,8 +47,9 @@ void OverlayDraggableWidget::initSelect() {
     _select->setFixedSize(3, 15);
 }
 
-void OverlayDraggableWidget::initTasksAmount(CategoryWidget& category_widget) {
-    _tasks_amount = std::make_shared<QLabel>(std::to_string(category_widget.self().getTasks().size()).c_str());
+void OverlayDraggableWidget::initTasksAmount() {
+    //_tasks_amount = std::make_shared<QLabel>(std::to_string(category_widget.self().getTasks().size()).c_str());
+    _tasks_amount = std::make_shared<QLabel>("13");
     _tasks_amount->setAlignment(Qt::AlignRight);
     _tasks_amount->setContentsMargins(0, 0, 10, 0);
     _tasks_amount->setStyleSheet("font-size: 14px;");

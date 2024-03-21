@@ -1,7 +1,6 @@
 #include "Application.hpp"
 
 Application::Application(int argc, char *argv[]): _application(argc, argv) {
-    //_application.setStyleSheet("background-color: rgb(49, 49, 49);");
     initLeftPanel();
     initMainCategory();
     initSplitter();

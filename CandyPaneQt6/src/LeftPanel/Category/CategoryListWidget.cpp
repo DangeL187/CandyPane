@@ -1,11 +1,13 @@
 #include <iostream> // todo: delete
 
+#include "DraggableWidgetsList.hpp"
 #include "LeftPanel/Category/CategoriesListWidget.hpp"
+#include "LeftPanel/Category/CategoryWidget.hpp"
 
 CategoriesListWidget::CategoriesListWidget(QWidget* parent_widget, candypane::Category* main_task_list):
-        QVBoxLayout(parent_widget), candypane::CategoriesList(main_task_list)
+    DraggableWidgetsList(parent_widget), candypane::CategoriesList(main_task_list)
 {
-    initLayout();
+
 }
 
 void CategoriesListWidget::addCategoryWidget() {
@@ -26,51 +28,5 @@ void CategoriesListWidget::addCategoryWidget() {
         candypane::Task task2; task2.setName("luck3"); task2.setText("f3");
         getCategoryById(1).setTasks({task0, task1, task2});
         qobject_cast<CategoryWidget*>(layout()->itemAt(1)->widget())->updateWidget();
-    }
-}
-
-void CategoriesListWidget::deselectAll(bool background_only) {
-    for (int i = 0; i < count()-1; i++) {
-        qobject_cast<CategoryWidget*>(layout()->itemAt(i)->widget())->select(false, background_only);
-    }
-}
-
-void CategoriesListWidget::initLayout() {
-    auto* spacer = new QSpacerItem(20, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    setContentsMargins(0, 10, 0, 10);
-    setSpacing(10);
-    addItem(spacer);
-}
-
-void CategoriesListWidget::relocateCategoryWidget(unsigned int new_index, unsigned int category_id) {
-    if (new_index == category_id) return;
-
-    auto* widget = qobject_cast<CategoryWidget*>(layout()->itemAt(int(category_id))->widget());
-    widget->setId(new_index);
-    removeWidget(widget);
-    insertWidget(int(new_index), widget);
-
-    unsigned int from, to;
-    if (new_index < category_id) {
-        from = new_index+1;
-        to = category_id+1;
-    } else {
-        from = category_id;
-        to = new_index;
-    }
-
-    for (unsigned i = from; i < to; i++) {
-        auto* widget_i = qobject_cast<CategoryWidget*>(layout()->itemAt(int(i))->widget());
-        if (i < new_index) {
-            widget_i->setId(widget_i->getId()-1);
-        } else {
-            widget_i->setId(widget_i->getId()+1);
-        }
-    }
-}
-
-void CategoriesListWidget::updateCategoryWidgets() {
-    for (int i = 0; i < count()-1; i++) {
-        qobject_cast<CategoryWidget*>(layout()->itemAt(i)->widget())->updateWidget();
     }
 }

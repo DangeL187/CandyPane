@@ -1,3 +1,4 @@
+#include "LeftPanel/Category/CategoryWidget.hpp"
 #include "LeftPanel/LeftPanel.hpp"
 
 LeftPanel::LeftPanel(candypane::Category* main_task_list) {
@@ -28,7 +29,7 @@ void LeftPanel::initCategoriesListScrollArea() {
 
 void LeftPanel::initLayout() {
     _left_panel_layout.setSpacing(0);
-    _left_panel_layout.setContentsMargins(10, 0, 0, 10);
+    _left_panel_layout.setContentsMargins(6, 0, 0, 10);
 
     _account_widget.setFixedHeight(30); //temp
     _account_widget.setStyleSheet("background-color: blue;"); //temp

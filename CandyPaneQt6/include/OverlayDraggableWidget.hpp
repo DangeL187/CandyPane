@@ -4,12 +4,14 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QLabel>
-#include "Category/CategoryWidget.hpp"
+
+class CategoryWidget;
+class DraggableWidget;
 
 class OverlayDraggableWidget: public QDialog {
     Q_OBJECT
 public:
-    explicit OverlayDraggableWidget(CategoryWidget& category_widget);
+    explicit OverlayDraggableWidget(DraggableWidget& draggable_widget);
 
 private:
     /*=============OverlayDraggableWidget==============*/
@@ -25,9 +27,9 @@ private:
 
     void initIcon();
     void initLayout();
-    void initName(CategoryWidget& category_widget);
+    void initName();
     void initSelect();
-    void initTasksAmount(CategoryWidget& category_widget);
+    void initTasksAmount();
     void paintEvent(QPaintEvent *event) override;
 };
 

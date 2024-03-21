@@ -57,8 +57,8 @@ protected:
         }
     }
 private:
-    std::vector<QSize>              _before_fullscreen_size;
-    T*                              t_owner;
+    std::vector<QSize>  _before_fullscreen_size;
+    T*                  t_owner;
 };
 
 #endif //CANDYPANEQT_UPDATABLEWINDOW_HPP

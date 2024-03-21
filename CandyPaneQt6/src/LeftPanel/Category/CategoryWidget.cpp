@@ -1,30 +1,16 @@
 #include <iostream> // todo: delete
-#include "LeftPanel/Category/CategoryWidget.hpp"
-#include "LeftPanel/Category/CategoriesListWidget.hpp"
-#include "LeftPanel/Category/LineEditCategoryName.hpp"
-#include "LeftPanel/OverlayDraggableWidget.hpp"
 
 #include <QPainter>
 
-class Background: public QWidget {
-public:
-    explicit Background(QWidget* parent): QWidget(parent) {}
-
-    void setColor(unsigned short r, unsigned short g, unsigned short b) {
-        std::string color = "background-color: rgb(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ");";
-        std::string border = "border-radius: 6px;";
-        setStyleSheet((color + border).c_str());
-    }
-    void setColor() {
-        std::string color = "background-color: transparent;";
-        std::string border = "border-radius: 6px;";
-        setStyleSheet((color + border).c_str());
-    }
-};
+#include "OverlayDraggableWidget.hpp"
+#include "LeftPanel/Category/CategoryWidget.hpp"
+#include "LeftPanel/Category/CategoriesListWidget.hpp"
+#include "LeftPanel/Category/LineEditCategoryName.hpp"
 
 CategoryWidget::CategoryWidget(CategoriesListWidget* categories_list_widget, unsigned long long int id):
-    _categories_list_widget(categories_list_widget), _id(id)
+    _categories_list_widget(categories_list_widget), DraggableWidget(id)
 {
+    loadStyle();
     initSelect();
     initIcon();
     initTasksAmount();
@@ -45,7 +31,7 @@ void CategoryWidget::exec() {
 }
 
 candypane::Category& CategoryWidget::self() const {
-    return _categories_list_widget->getCategoryById(_id);
+    return _categories_list_widget->getCategoryById(getId());
 }
 
 int CategoryWidget::getNewIndex() {
@@ -63,10 +49,6 @@ int CategoryWidget::getNewIndex() {
         }
     }
     return new_index;
-}
-
-unsigned long long int CategoryWidget::getId() const {
-    return _id;
 }
 
 void CategoryWidget::initEditName() {
@@ -92,10 +74,9 @@ void CategoryWidget::initSelect() {
     _select = new QWidget();
     _select->setFixedSize(3, 15);
     _select->setStyleSheet("background-color: rgb(118, 185, 237);");
-    _categories_list_widget->deselectAll();
+    _categories_list_widget->deselectAll<CategoryWidget>();
 
-    _select_background = std::make_shared<Background>(this);
-    _select_background->setColor(49, 49, 49);
+    selectBackground(true);
 }
 
 void CategoryWidget::initTasksAmount() {
@@ -117,50 +98,45 @@ void CategoryWidget::initLayout() {
     setLayout(_layout);
 }
 
+void CategoryWidget::loadStyle() {
+    loadBackgroundStyle();
+}
+
 void CategoryWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        std::cout << "####\n" << self().getName() << " id: " << _id << "\n";
+        std::cout << "####\n" << self().getName() << " id: " << getId() << "\n";
         for (auto& i: self().getTasks()) {
             std::cout << i.getName() << " " << i.getText() << "\n";
         } std::cout << "####\n\n";
 
-        _drag_start_pos = event->globalPosition().toPoint() - mapToGlobal(rect().topLeft());
-
-        _dragged_object = new OverlayDraggableWidget(*this);
-        _dragged_object->show();
-        _dragged_object->move(event->globalPosition().toPoint() - _drag_start_pos);
+        onMousePress(event);
 
         setWidgetVisible(false);
-        _categories_list_widget->deselectAll();
+        _categories_list_widget->deselectAll<CategoryWidget>();
     }
 }
 
 void CategoryWidget::mouseMoveEvent(QMouseEvent* event) {
     if (event->buttons() & Qt::LeftButton) {
-        QPoint pos = event->globalPosition().toPoint();
-        pos -= _drag_start_pos;
-        _dragged_object->move(pos);
+        onMouseMove(event);
 
         int new_index = getNewIndex();
         if (new_index != -1) {
             _categories_list_widget->relocateCategoryById(new_index, _categories_list_widget->indexOf(this));
-            _categories_list_widget->relocateCategoryWidget(new_index, _categories_list_widget->indexOf(this));
+            _categories_list_widget->relocateWidget(new_index, _categories_list_widget->indexOf(this));
         }
     }
 }
 
 void CategoryWidget::mouseReleaseEvent(QMouseEvent* event) {
-    if (_dragged_object != nullptr) {
-        _dragged_object->close();
-        delete _dragged_object;
-        _dragged_object = nullptr;
+    if (onMouseRelease(event)) {
         setWidgetVisible(true);
-        _categories_list_widget->updateCategoryWidgets();
+        _categories_list_widget->updateWidgets();
     }
 }
 
 void CategoryWidget::resizeEvent(QResizeEvent* event) {
-    _select_background->setFixedWidth(width());
+    onResize(event);
     updateName();
 }
 
@@ -169,16 +145,12 @@ void CategoryWidget::select(bool value, bool background_only) {
         if (value) _select->setStyleSheet("background-color: rgb(118, 185, 237);");
         else _select->setStyleSheet("background-color: transparent;");
     }
-    if (value) _select_background->setColor(49, 49, 49);
-    else if (_select->styleSheet() == "background-color: transparent;") _select_background->setColor();
+    if (value) selectBackground(true);
+    else if (_select->styleSheet() == "background-color: transparent;") selectBackground(false);
 }
 
 void CategoryWidget::setEditNameFocus() {
     _edit_name->setFocus();
-}
-
-void CategoryWidget::setId(unsigned long long int id) {
-    _id = id;
 }
 
 void CategoryWidget::setWidgetVisible(bool value) {
