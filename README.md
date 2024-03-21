@@ -6,7 +6,7 @@
 
 CandyPane is an application that provides the user with the most convenient way to track their self-tasks.
 
-The project is still in development. Please check the Changelog for the latest updates.
+The project is still in development. Please check the [Changelog](https://github.com/DangeL187/CandyPane/blob/main/Changelog.md) for the latest updates.
 
 ## [Documentation]() (soon)
 
