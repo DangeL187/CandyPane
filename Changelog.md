@@ -1,5 +1,8 @@
 # Changelog
 
+
+### 22.03.2024 - [Немного изменена архитектура ядра, закончена Левая Панель, начата работа по добавлению MainTaskList]()
+1. ...
 ### 21.03.2024 - [Немного изменена архитектура, добавлены классы DraggableWidget и DraggableWidgetsList](https://github.com/DangeL187/CandyPane/commit/d602891dce1fc0e8f48db1c133504cd8e209b5b9)
 1. За фон перетаскиваемых виджетов теперь отвечает класс WidgetBackground
 2. Теперь все перетаскиваемые виджеты наследуются от класса [DraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/DraggableWidget.hpp)
