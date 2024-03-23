@@ -1,8 +1,15 @@
 # Changelog
 
 
-### 22.03.2024 - [Немного изменена архитектура ядра, закончена Левая Панель, начата работа по добавлению MainTaskList]()
-1. ...
+### 23.03.2024 - [Немного изменена архитектура ядра, закончена Левая Панель, начата работа по добавлению MainTaskList](https://github.com/DangeL187/CandyPane/commit/62bc75b8c8a0190d25183fadddb73c8e16ecf827)
+1. Теперь за хранение ID выбранной категории отвечает CategoryList
+2. Удалён класс NewListButton
+3. UpdatableSplitter заменён на обычный QSplitter
+4. Теперь список категорий, а именно объект типа CategoryList хранится в классе [Application](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Application.hpp) и передаётся в [LeftPanel](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/LeftPanel.hpp) и [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp)
+5. Улучшен функционал у всех классов, связанных с перемещением виджетов
+6. [OverlayDraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/OverlayDraggableWidget.hpp) теперь исправно копирует содержимое перетаскиваемого виджета
+7. Добавлена базовая реализация логики работы [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp), а также классы [TaskListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/TaskListWidget.hpp) и [TaskWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/TaskWidget.hpp)
+8. <b> В следующем обновлении планируется реализовать внешний вид [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp) </b>
 ### 21.03.2024 - [Немного изменена архитектура, добавлены классы DraggableWidget и DraggableWidgetsList](https://github.com/DangeL187/CandyPane/commit/d602891dce1fc0e8f48db1c133504cd8e209b5b9)
 1. За фон перетаскиваемых виджетов теперь отвечает класс WidgetBackground
 2. Теперь все перетаскиваемые виджеты наследуются от класса [DraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/DraggableWidget.hpp)
