@@ -1,14 +1,19 @@
 #include <QMouseEvent>
 
-#include "DraggableWidget.hpp"
-#include "OverlayDraggableWidget.hpp"
+#include "Draggable/DraggableWidget.hpp"
+#include "Draggable/OverlayDraggableWidget.hpp"
 
 DraggableWidget::DraggableWidget(unsigned long long int id): _id(id) {
     _select_background = std::make_shared<WidgetBackground>(this);
+    initLayout();
 }
 
 unsigned long long int DraggableWidget::getId() const {
     return _id;
+}
+
+void DraggableWidget::initLayout() {
+    setLayout(&_layout);
 }
 
 void DraggableWidget::loadBackgroundStyle() {

@@ -1,9 +1,9 @@
 #include "LeftPanel/Category/CategoryWidget.hpp"
 #include "LeftPanel/LeftPanel.hpp"
 
-LeftPanel::LeftPanel(candypane::Category* main_task_list) {
-    initModules(main_task_list);
-    initCategoriesListScrollArea();
+LeftPanel::LeftPanel(candypane::CategoryList* category_list) {
+    initModules(category_list);
+    initCategoryListScrollArea();
     initLayout();
 
     setMinimumWidth(1920/9);
@@ -11,8 +11,8 @@ LeftPanel::LeftPanel(candypane::Category* main_task_list) {
 }
 
 void LeftPanel::checkHover() {
-    for (int i = 0; i < _categories_list_widget->count()-1; i++) {
-        auto category_widget = qobject_cast<CategoryWidget*>(_categories_list_widget->itemAt(i)->widget());
+    for (int i = 0; i < _category_list_widget->count()-1; i++) {
+        auto category_widget = qobject_cast<CategoryWidget*>(_category_list_widget->itemAt(i)->widget());
         if (category_widget->underMouse()) {
             category_widget->select(true, true);
         } else {
@@ -21,27 +21,27 @@ void LeftPanel::checkHover() {
     }
 }
 
-void LeftPanel::initCategoriesListScrollArea() {
+void LeftPanel::initCategoryListScrollArea() {
     _scroll_area.setFrameShape(QFrame::NoFrame);
     _scroll_area.setWidgetResizable(true);
     _scroll_area.setWidget(&_scroll_area_widget);
 }
 
 void LeftPanel::initLayout() {
-    _left_panel_layout.setSpacing(0);
-    _left_panel_layout.setContentsMargins(6, 0, 0, 10);
+    _layout.setSpacing(0);
+    _layout.setContentsMargins(6, 0, 0, 10);
 
     _account_widget.setFixedHeight(30); //temp
     _account_widget.setStyleSheet("background-color: blue;"); //temp
 
-    _left_panel_layout.addWidget(&_account_widget);
-    _left_panel_layout.addWidget(&_scroll_area);
-    _left_panel_layout.addWidget(_new_list_widget.get());
+    _layout.addWidget(&_account_widget);
+    _layout.addWidget(&_scroll_area);
+    _layout.addWidget(_new_list_widget.get());
 
-    setLayout(&_left_panel_layout);
+    setLayout(&_layout);
 }
 
-void LeftPanel::initModules(candypane::Category* main_task_list) {
-    _categories_list_widget = std::make_shared<CategoriesListWidget>(&_scroll_area_widget, main_task_list);
-    _new_list_widget = std::make_shared<NewListWidget>(_categories_list_widget.get());
+void LeftPanel::initModules(candypane::CategoryList* category_list) {
+    _category_list_widget = std::make_shared<CategoryListWidget>(&_scroll_area_widget, category_list);
+    _new_list_widget = std::make_shared<NewListWidget>(_category_list_widget.get());
 }

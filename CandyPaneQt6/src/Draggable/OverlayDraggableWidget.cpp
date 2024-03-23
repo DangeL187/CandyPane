@@ -2,57 +2,41 @@
 #include <QStyle>
 #include <QStyleOption>
 
-#include "DraggableWidget.hpp"
-#include "OverlayDraggableWidget.hpp"
+#include "Draggable/DraggableWidget.hpp"
+#include "Draggable/OverlayDraggableWidget.hpp"
 
 OverlayDraggableWidget::OverlayDraggableWidget(DraggableWidget& draggable_widget): QDialog(nullptr) {
     setWindowOpacity(0.7);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
 
-    initSelect();
-    initIcon();
-    initName();
-    initTasksAmount();
-    initLayout();
-
-    resize(draggable_widget.size());
+    setFixedSize(draggable_widget.size());
+    initLayout(draggable_widget.getLayout());
 }
 
-void OverlayDraggableWidget::initIcon() {
-    _icon = std::make_shared<QWidget>();
-    _icon->setStyleSheet("background-color: red;");
-    _icon->setFixedSize(20, 20);
-}
-
-void OverlayDraggableWidget::initLayout() {
-    _layout = std::make_shared<QHBoxLayout>(this);
-    _layout->setContentsMargins(0, 5, 0, 5);
-
-    _layout->addWidget(_select.get());
-    _layout->addWidget(_icon.get());
-    _layout->addWidget(_name.get());
-    _layout->addWidget(_tasks_amount.get());
-}
-
-void OverlayDraggableWidget::initName() {
-    //_name = std::make_shared<QLabel>(category_widget.self().getName().c_str());
-    _name = std::make_shared<QLabel>("temp name");
-    _name->setStyleSheet("font-size: 14px;");
-}
-
-void OverlayDraggableWidget::initSelect() {
-    _select = std::make_shared<QWidget>();
-    _select->setStyleSheet("background-color: rgb(118, 185, 237);");
-    _select->setFixedSize(3, 15);
-}
-
-void OverlayDraggableWidget::initTasksAmount() {
-    //_tasks_amount = std::make_shared<QLabel>(std::to_string(category_widget.self().getTasks().size()).c_str());
-    _tasks_amount = std::make_shared<QLabel>("13");
-    _tasks_amount->setAlignment(Qt::AlignRight);
-    _tasks_amount->setContentsMargins(0, 0, 10, 0);
-    _tasks_amount->setStyleSheet("font-size: 14px;");
+void OverlayDraggableWidget::initLayout(QHBoxLayout& layout) {
+    _layout = std::make_shared<QHBoxLayout>();
+    _layout->setContentsMargins(0, 0, 0, 0);
+    for (int i = 0; i < layout.count(); i++) {
+        if (layout.itemAt(i)->controlTypes() == QSizePolicy::Label) {
+            auto* label = new QLabel(this);
+            label->setFont(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->font());
+            label->setText(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->text());
+            label->setStyleSheet(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->styleSheet());
+            label->setFixedSize(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->size());
+            label->setAlignment(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->alignment());
+            label->setContentsMargins(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->contentsMargins());
+            label->setVisible(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->isVisible());
+            _layout->addWidget(label);
+        } else {
+            auto* widget = new QWidget(this);
+            widget->setFixedSize(layout.itemAt(i)->widget()->size());
+            widget->setStyleSheet(layout.itemAt(i)->widget()->styleSheet());
+            widget->setVisible(layout.itemAt(i)->widget()->isVisible());
+            _layout->addWidget(widget);
+        }
+    }
+    setLayout(_layout.get());
 }
 
 void OverlayDraggableWidget::paintEvent(QPaintEvent* event) {

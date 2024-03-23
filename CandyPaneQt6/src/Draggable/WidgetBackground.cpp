@@ -1,4 +1,4 @@
-#include "WidgetBackground.hpp"
+#include "Draggable/WidgetBackground.hpp"
 
 WidgetBackground::WidgetBackground(QWidget* parent): QWidget(parent) {}
 

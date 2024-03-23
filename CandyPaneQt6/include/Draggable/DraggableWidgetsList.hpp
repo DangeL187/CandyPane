@@ -5,12 +5,14 @@
 
 class DraggableWidgetsList: public QVBoxLayout {
 public:
-    DraggableWidgetsList(QWidget* parent_widget);
+    explicit DraggableWidgetsList(QWidget* parent_widget);
 
-    template <typename T>
-    void deselectAll();
-
-    void relocateWidget(unsigned int new_index, unsigned int category_id);
+    template <typename T> void addWidget(T* widget);
+    void clearLayout();
+    template <typename T> void deselectAll();
+    int getNewIndex();
+    void relocateWidget(unsigned int new_index, unsigned int widget_id);
+    void removeWidgetById(unsigned int widget_id);
     void updateWidgets();
 private:
     void initLayout();

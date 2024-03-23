@@ -18,18 +18,7 @@ private:
     std::shared_ptr<QHBoxLayout>    _layout;
     /*=================================================*/
 
-    /*====================contents=====================*/
-    std::shared_ptr<QWidget>        _select;
-    std::shared_ptr<QWidget>        _icon;
-    std::shared_ptr<QLabel>         _name;
-    std::shared_ptr<QLabel>         _tasks_amount;
-    /*=================================================*/
-
-    void initIcon();
-    void initLayout();
-    void initName();
-    void initSelect();
-    void initTasksAmount();
+    void initLayout(QHBoxLayout& layout);
     void paintEvent(QPaintEvent *event) override;
 };
 

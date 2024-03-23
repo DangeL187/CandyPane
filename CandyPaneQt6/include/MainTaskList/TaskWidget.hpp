@@ -1,8 +1,6 @@
-#ifndef CANDYPANEQT_CATEGORYWIDGET_HPP
-#define CANDYPANEQT_CATEGORYWIDGET_HPP
+#ifndef CANDYPANEQT_TASKWIDGET_HPP
+#define CANDYPANEQT_TASKWIDGET_HPP
 
-#include <iostream>
-#include <QDialog>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -11,34 +9,34 @@
 #include <QPushButton>
 #include <QScreen>
 
-#include <Task/Category.hpp>
+#include <Task/Task.hpp>
 
 #include "Draggable/DraggableWidget.hpp"
 
-class CategoryListWidget;
-class LineEditCategoryName;
+class TaskListWidget;
+//class LineEditWidgetName; ?
 class OverlayDraggableWidget;
 
-class CategoryWidget: public DraggableWidget {
-Q_OBJECT
+class TaskWidget: public DraggableWidget {
+    Q_OBJECT
 public:
-    CategoryWidget(CategoryListWidget* category_list_widget, unsigned long long int id);
+    TaskWidget(TaskListWidget* task_list_widget, unsigned long long int id);
 
     void exec();
-    [[nodiscard]] candypane::Category& self() const;
+    [[nodiscard]] candypane::Task& self() const;
     void loadStyle();
     void select(bool value, bool background_only = false);
     void setEditNameFocus();
-    void setWidgetVisible(bool value) override;
-    void updateWidget() override;
+    void setWidgetVisible(bool value) override {}
+    void updateWidget() override {}
 
 private:
-    /*===================CategoryWidget====================*/
-    CategoryListWidget*     _category_list_widget;
+    /*=====================TaskWidget======================*/
+    TaskListWidget*         _task_list_widget;
     /*=====================================================*/
 
     /*======================contents=======================*/
-    LineEditCategoryName*   _edit_name{};
+    //LineEditWidgetName*   _edit_name{};
     QWidget*                _icon{};
     QLabel*                 _name{};
     QWidget*                _select{};
@@ -46,10 +44,10 @@ private:
     /*=====================================================*/
 
     /*=======================events========================*/
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void resizeEvent(QResizeEvent* event) override;
+    //void mousePressEvent(QMouseEvent* event) override;
+    //void mouseMoveEvent(QMouseEvent* event) override;
+    //void mouseReleaseEvent(QMouseEvent* event) override;
+    //void resizeEvent(QResizeEvent* event) override;
     /*=====================================================*/
 
     /*=====================initializers====================*/
@@ -66,4 +64,4 @@ private:
     void updateTasksAmount();
 };
 
-#endif //CANDYPANEQT_CATEGORYWIDGET_HPP
+#endif //CANDYPANEQT_TASKWIDGET_HPP

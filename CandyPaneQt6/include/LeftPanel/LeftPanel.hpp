@@ -1,37 +1,37 @@
 #ifndef CANDYPANEQT_LEFTPANEL_HPP
 #define CANDYPANEQT_LEFTPANEL_HPP
 
+#include <QFrame>
 #include <QSplitter>
 #include <QScrollArea>
-#include <QFrame>
-#include <QGridLayout>
+#include <QVBoxLayout>
 
 #include "AccountWidget.hpp"
-#include "Category/CategoriesListWidget.hpp"
+#include "Category/CategoryListWidget.hpp"
 #include "Category/NewListWidget.hpp"
 
 class LeftPanel: public QFrame {
 public:
-    explicit LeftPanel(candypane::Category* main_task_list);
+    LeftPanel(candypane::CategoryList* category_list);
 
     void checkHover();
 private:
     /*=========================LeftPanel===========================*/
-    QVBoxLayout                             _left_panel_layout;
+    QVBoxLayout                             _layout;
     /*=============================================================*/
 
     /*===========================contents==========================*/
     AccountWidget                           _account_widget;
-    std::shared_ptr<CategoriesListWidget>   _categories_list_widget;
+    std::shared_ptr<CategoryListWidget>   _category_list_widget;
     std::shared_ptr<NewListWidget>          _new_list_widget;
     QScrollArea                             _scroll_area;
     QWidget                                 _scroll_area_widget;
     /*=============================================================*/
 
     /*=========================initializers========================*/
-    void initCategoriesListScrollArea();
+    void initCategoryListScrollArea();
     void initLayout();
-    void initModules(candypane::Category* main_task_list);
+    void initModules(candypane::CategoryList* category_list);
     /*=============================================================*/
 };
 

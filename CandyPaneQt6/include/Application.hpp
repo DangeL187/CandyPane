@@ -2,32 +2,16 @@
 #define CANDYPANEQT_APPLICATION_HPP
 
 #include <memory>
+
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QSplitter>
 
-#include "UpdatableWindow.hpp"
+#include <Task/CategoryList.hpp>
 
-//splitter: // TODO: in debug process, when done - delete
-
-template <typename T>
-class UpdatableSplitter: public QSplitter {
-public:
-    explicit UpdatableSplitter(T* owner) {
-        t_owner = owner;
-        connect(this, &QSplitter::splitterMoved, this, &UpdatableSplitter::handleSplitterMoved);
-    }
-private slots:
-    void handleSplitterMoved(int pos, int index) {
-        //t_owner->updateWidth(t_owner->getWindowWidth());
-    }
-private:
-    T*  t_owner;
-};
-
-//
-
-#include "LeftPanel/LeftPanel.hpp"
+template <typename T> class UpdatableWindow;
+class LeftPanel;
+class MainTaskList;
 
 class Application {
 public:
@@ -36,25 +20,30 @@ public:
     void checkHover();
     void updateWidth(int window_width);
 private:
-    /*========================Application========================*/
+    /*==========================Application==========================*/
     QApplication                                    _application;
     std::shared_ptr<QHBoxLayout>                    _main_layout;
-    std::shared_ptr<UpdatableSplitter<Application>> _splitter;
+    QSplitter                                       _splitter;
     std::shared_ptr<UpdatableWindow<Application>>   _window;
-    /*===========================================================*/
+    /*===============================================================*/
 
-    /*==========================modules==========================*/
+    /*============================modules============================*/
     std::shared_ptr<LeftPanel>                      _left_panel;
-    std::shared_ptr<QWidget>                        _main_category;
-    /*===========================================================*/
+    std::shared_ptr<MainTaskList>                   _main_task_list;
+    /*===============================================================*/
 
-    /*=======================initializers========================*/
-    void initLeftPanel() ;
-    void initMainCategory();
+    /*=============================DATA==============================*/
+    candypane::CategoryList                         _category_list;
+    /*===============================================================*/
+
+    /*=========================initializers==========================*/
+    void initCategoryList();
+    void initLeftPanel(candypane::CategoryList* category_list);
     void initMainLayout();
+    void initMainTaskList(candypane::CategoryList* category_list);
     void initSplitter();
     void initWindow();
-    /*===========================================================*/
+    /*===============================================================*/
 };
 
 #endif //CANDYPANEQT_APPLICATION_HPP

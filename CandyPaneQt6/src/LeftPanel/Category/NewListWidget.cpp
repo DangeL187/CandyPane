@@ -1,12 +1,9 @@
 #include "LeftPanel/Category/NewListWidget.hpp"
 
-void NewListWidget::addCategory() {
-    action("_");
-    _categories_list_widget->addCategoryWidget();
-}
+NewListWidget::NewListWidget(CategoryListWidget* category_list): _category_list_widget(category_list) {}
 
 void NewListWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        addCategory();
+        _category_list_widget->addCategoryWidget();
     }
 }
