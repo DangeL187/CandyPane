@@ -13,7 +13,7 @@ namespace candypane {
         [[nodiscard]] std::string getUsername() const;
         void setUsername(const std::string& username);
 
-    private:
+    protected:
         std::string _username;
     };
 
