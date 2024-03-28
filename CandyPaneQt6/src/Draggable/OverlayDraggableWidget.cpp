@@ -1,3 +1,4 @@
+#include <QCheckBox>
 #include <QPainter>
 #include <QStyle>
 #include <QStyleOption>
@@ -16,23 +17,33 @@ OverlayDraggableWidget::OverlayDraggableWidget(DraggableWidget& draggable_widget
 
 void OverlayDraggableWidget::initLayout(QHBoxLayout& layout) {
     _layout = std::make_shared<QHBoxLayout>();
-    _layout->setContentsMargins(0, 0, 0, 0);
+    _layout->setContentsMargins(layout.contentsMargins());
     for (int i = 0; i < layout.count(); i++) {
         if (layout.itemAt(i)->controlTypes() == QSizePolicy::Label) {
+            auto* original = qobject_cast<QLabel*>(layout.itemAt(i)->widget());
             auto* label = new QLabel(this);
-            label->setFont(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->font());
-            label->setText(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->text());
-            label->setStyleSheet(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->styleSheet());
-            label->setFixedSize(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->size());
-            label->setAlignment(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->alignment());
-            label->setContentsMargins(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->contentsMargins());
-            label->setVisible(qobject_cast<QLabel*>(layout.itemAt(i)->widget())->isVisible());
+            label->setFont(original->font());
+            label->setText(original->text());
+            label->setStyleSheet(original->styleSheet());
+            label->setFixedSize(original->size());
+            label->setAlignment(original->alignment());
+            label->setContentsMargins(original->contentsMargins());
+            label->setVisible(original->isVisible());
             _layout->addWidget(label);
+        } else if (layout.itemAt(i)->controlTypes() == QSizePolicy::CheckBox) {
+            auto* original = qobject_cast<QCheckBox*>(layout.itemAt(i)->widget());
+            auto* checkbox = new QCheckBox(this);
+            checkbox->setStyleSheet(original->styleSheet());
+            checkbox->setFixedSize(original->size());
+            checkbox->setVisible(original->isVisible());
+            checkbox->setCheckState(original->checkState());
+            _layout->addWidget(checkbox);
         } else {
+            auto* original = layout.itemAt(i)->widget();
             auto* widget = new QWidget(this);
-            widget->setFixedSize(layout.itemAt(i)->widget()->size());
-            widget->setStyleSheet(layout.itemAt(i)->widget()->styleSheet());
-            widget->setVisible(layout.itemAt(i)->widget()->isVisible());
+            widget->setFixedSize(original->size());
+            widget->setStyleSheet(original->styleSheet());
+            widget->setVisible(original->isVisible());
             _layout->addWidget(widget);
         }
     }

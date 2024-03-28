@@ -16,8 +16,14 @@ void DraggableWidget::initLayout() {
     setLayout(&_layout);
 }
 
-void DraggableWidget::loadBackgroundStyle() {
-    _select_background->setColor(49, 49, 49);
+void DraggableWidget::loadBackgroundStyle(unsigned short widget_type) {
+    if (widget_type == 0) {
+        _select_background->setColor(49, 49, 49); // todo: take from: CategoryWidgetStyle.css#background-color
+    }
+    else if (widget_type == 1) {
+        _select_background->setColor(55, 55, 55); // todo: take from: TaskWidgetStyle.css#background-color
+        _select_background->setOffColor(46, 47, 48); // todo: take from: TaskWidgetStyle.css#background-off-color
+    }
 }
 
 void DraggableWidget::onMousePress(QMouseEvent* event) {
@@ -46,7 +52,7 @@ bool DraggableWidget::onMouseRelease(QMouseEvent* event) {
 }
 
 void DraggableWidget::onResize(QResizeEvent* event) {
-    _select_background->setFixedWidth(width());
+    _select_background->setFixedSize(size());
 }
 
 void DraggableWidget::selectBackground(bool value) {

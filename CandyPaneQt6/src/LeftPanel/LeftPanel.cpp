@@ -1,8 +1,8 @@
 #include "LeftPanel/Category/CategoryWidget.hpp"
 #include "LeftPanel/LeftPanel.hpp"
 
-LeftPanel::LeftPanel(candypane::CategoryList* category_list) {
-    initModules(category_list);
+LeftPanel::LeftPanel(candypane::CategoryList* category_list, MainTaskList* main_task_list) {
+    initModules(category_list, main_task_list);
     initCategoryListScrollArea();
     initLayout();
 
@@ -41,7 +41,7 @@ void LeftPanel::initLayout() {
     setLayout(&_layout);
 }
 
-void LeftPanel::initModules(candypane::CategoryList* category_list) {
-    _category_list_widget = std::make_shared<CategoryListWidget>(&_scroll_area_widget, category_list);
+void LeftPanel::initModules(candypane::CategoryList* category_list, MainTaskList* main_task_list) {
+    _category_list_widget = std::make_shared<CategoryListWidget>(&_scroll_area_widget, category_list, main_task_list);
     _new_list_widget = std::make_shared<NewListWidget>(_category_list_widget.get());
 }

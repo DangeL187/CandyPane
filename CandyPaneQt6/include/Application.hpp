@@ -38,7 +38,7 @@ private:
 
     /*=========================initializers==========================*/
     void initCategoryList();
-    void initLeftPanel(candypane::CategoryList* category_list);
+    void initLeftPanel(candypane::CategoryList* category_list, MainTaskList* main_task_list);
     void initMainLayout();
     void initMainTaskList(candypane::CategoryList* category_list);
     void initSplitter();
