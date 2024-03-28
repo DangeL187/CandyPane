@@ -34,6 +34,10 @@ namespace candypane {
 
         [[nodiscard]] std::string getName() const;
         [[nodiscard]] std::string getText() const;
+        [[nodiscard]] bool isCompleted() const;
+        [[nodiscard]] bool isFavourite() const;
+        void setCompleted(bool value);
+        void setFavourite(bool value);
         void setName(const std::string &new_name);
         void setText(const std::string &text);
 
@@ -42,8 +46,10 @@ namespace candypane {
         }
 
     protected:
+        bool        _completed = false;
+        bool        _favourite = false;
         std::string _name;
-        std::string _text;
+        std::string _text; // TODO: delete?
     };
 
 }

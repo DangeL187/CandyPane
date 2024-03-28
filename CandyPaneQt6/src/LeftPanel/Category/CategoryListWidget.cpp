@@ -4,8 +4,8 @@
 #include "LeftPanel/Category/CategoryListWidget.hpp"
 #include "LeftPanel/Category/CategoryWidget.hpp"
 
-CategoryListWidget::CategoryListWidget(QWidget* parent_widget, candypane::CategoryList* category_list):
-    DraggableWidgetsList(parent_widget), _category_list(category_list) {}
+CategoryListWidget::CategoryListWidget(QWidget* parent_widget, candypane::CategoryList* category_list, MainTaskList* main_task_list):
+    DraggableWidgetsList(parent_widget), _category_list(category_list), _main_task_list(main_task_list) {}
 
 void CategoryListWidget::addCategoryWidget() {
     candypane::Category new_category(_category_list);
@@ -42,22 +42,34 @@ candypane::Category& CategoryListWidget::getCategoryById(unsigned long long cate
 void CategoryListWidget::relocateCategoryWidget(unsigned int category_id) {
     int new_index = getNewIndex();
     if (new_index != -1) {
-        if (category_id == _category_list->getSelectedCategoryId()) {
+        /*if (category_id == _category_list->getSelectedCategoryId()) { // todo: in debug process, when done - delete
             _category_list->setSelectedCategoryId(new_index);
-        }
+        }*/
         _category_list->relocateCategoryById(new_index, category_id);
         relocateWidget(new_index, category_id);
     }
 }
 
 void CategoryListWidget::removeCategoryWidgetById(unsigned int category_id) {
-    if (_category_list->getSelectedCategoryId() > category_id) {
-        _category_list->setSelectedCategoryId(_category_list->getSelectedCategoryId()-1);
-    }
     removeWidgetById(category_id);
     _category_list->removeCategoryById(category_id);
+
+    if (_category_list->getCategoriesSize() != 0) {
+        unsigned long long selected_id = _main_task_list->getSelectedCategoryId();
+        if (selected_id == 0) {
+            qobject_cast<CategoryWidget*>(layout()->itemAt(int(selected_id) + 1)->widget())->select(true);
+        } else if (selected_id >= category_id) {
+            qobject_cast<CategoryWidget*>(layout()->itemAt(int(selected_id) - 1)->widget())->select(true);
+        }
+    } else {
+        _main_task_list->updateTaskList();
+    }
 }
 
 void CategoryListWidget::setSelectedCategoryId(unsigned long long category_id) {
-    _category_list->setSelectedCategoryId(category_id);
+    _main_task_list->setSelectedCategoryId(category_id);
+}
+
+void CategoryListWidget::updateMainTaskList() {
+    _main_task_list->updateTaskList();
 }

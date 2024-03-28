@@ -5,8 +5,8 @@
 
 Application::Application(int argc, char *argv[]): _application(argc, argv) {
     initCategoryList();
-    initLeftPanel(&_category_list);
     initMainTaskList(&_category_list);
+    initLeftPanel(&_category_list, _main_task_list.get());
     initSplitter();
     initMainLayout();
     initWindow();
@@ -15,20 +15,19 @@ Application::Application(int argc, char *argv[]): _application(argc, argv) {
 
 void Application::checkHover() {
     _left_panel->checkHover();
-    _main_task_list->tempUpdateTasks();
+    _main_task_list->checkHover();
 }
 
 void Application::initCategoryList() { // todo: It does nothing now
     _category_list.loadCategoryList(); // todo: implement loadCategoryList in candypane and than use it here.
 }
 
-void Application::initLeftPanel(candypane::CategoryList* category_list) {
-    _left_panel = std::make_shared<LeftPanel>(category_list);
+void Application::initLeftPanel(candypane::CategoryList* category_list, MainTaskList* main_task_list) {
+    _left_panel = std::make_shared<LeftPanel>(category_list, main_task_list);
 }
 
 void Application::initMainTaskList(candypane::CategoryList* category_list) {
     _main_task_list = std::make_shared<MainTaskList>(category_list);
-    _main_task_list->setStyleSheet("background-color: black;");
 }
 
 void Application::initMainLayout() {

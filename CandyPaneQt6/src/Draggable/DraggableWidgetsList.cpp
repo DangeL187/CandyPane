@@ -1,7 +1,7 @@
 #include "Draggable/DraggableWidget.hpp"
 #include "Draggable/DraggableWidgetsList.hpp"
 #include "LeftPanel/Category/CategoryWidget.hpp"
-#include "MainTaskList/TaskWidget.hpp"
+#include "MainTaskList/Task/TaskWidget.hpp"
 
 DraggableWidgetsList::DraggableWidgetsList(QWidget* parent_widget): QVBoxLayout(parent_widget) {
     initLayout();
@@ -32,12 +32,12 @@ void DraggableWidgetsList::deselectAll<CategoryWidget>() {
     }
 }
 
-/*template <>
+template <>
 void DraggableWidgetsList::deselectAll<TaskWidget>() {
     for (int i = 0; i < count()-1; i++) {
-        qobject_cast<TaskWidget*>(layout()->itemAt(i)->widget())->select(false);
+        qobject_cast<TaskWidget*>(layout()->itemAt(i)->widget())->selectBackground(false);
     }
-}*/
+}
 
 int DraggableWidgetsList::getNewIndex() {
     int dif = -1;

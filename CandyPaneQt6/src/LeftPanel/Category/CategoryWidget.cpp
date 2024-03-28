@@ -1,5 +1,3 @@
-#include <iostream> // todo: delete
-
 #include <QPainter>
 
 #include "Draggable/OverlayDraggableWidget.hpp"
@@ -10,13 +8,14 @@
 CategoryWidget::CategoryWidget(CategoryListWidget* category_list_widget, unsigned long long int id):
     _category_list_widget(category_list_widget), DraggableWidget(id)
 {
-    loadStyle();
     initSelect();
     initIcon();
     initTasksAmount();
     initName();
     initLayout();
     initEditName();
+    loadStyle();
+    selectBackground(true);
 }
 
 void CategoryWidget::exec() {
@@ -25,9 +24,11 @@ void CategoryWidget::exec() {
         return;
     }
     self().setName(_edit_name->text().toStdString());
+    _edit_name->clearFocus();
     _edit_name->setVisible(false);
     _layout.insertWidget(2, _name);
     updateName();
+    _category_list_widget->updateMainTaskList();
 }
 
 candypane::Category& CategoryWidget::self() const {
@@ -77,16 +78,13 @@ void CategoryWidget::initLayout() {
 }
 
 void CategoryWidget::loadStyle() {
-    loadBackgroundStyle();
+    loadBackgroundStyle(0);
+    _name->setStyleSheet("background-color: transparent; font-size: 14px;");
+    _tasks_amount->setStyleSheet("background-color: transparent; font-size: 14px;");
 }
 
 void CategoryWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        std::cout << "####\n" << self().getName() << " id: " << getId() << "\n";
-        for (auto& i: self().getTasks()) {
-            std::cout << i.getName() << " " << i.getText() << "\n";
-        } std::cout << "####\n\n";
-
         select(true);
         onMousePress(event);
 
@@ -117,6 +115,7 @@ void CategoryWidget::resizeEvent(QResizeEvent* event) {
 void CategoryWidget::select(bool value, bool background_only) {
     if (!background_only) {
         if (value) {
+            _category_list_widget->updateMainTaskList();
             _category_list_widget->setSelectedCategoryId(getId());
             _select->setStyleSheet("background-color: rgb(118, 185, 237);");
         } else {
@@ -139,6 +138,7 @@ void CategoryWidget::setWidgetVisible(bool value) {
         _icon->setStyleSheet("background-color: red;");
         updateName();
         updateTasksAmount();
+        //todo: replace with updateWidget
     } else {
         _icon->setStyleSheet("background-color: transparent");
         _name->setText("");
@@ -148,11 +148,10 @@ void CategoryWidget::setWidgetVisible(bool value) {
 }
 
 void CategoryWidget::updateName() {
-    _name->setStyleSheet("font-size: 14px;");
     _name->setText(self().getName().c_str());
 
     QLabel new_text;
-    new_text.setStyleSheet("font-size: 14px;");
+    new_text.setStyleSheet(_name->styleSheet());
     new_text.setText((self().getName() + "...").c_str());
     new_text.setFont(_name->font());
 
@@ -162,7 +161,7 @@ void CategoryWidget::updateName() {
 
     if (name_width > max_size) {
         while (new_text.fontMetrics().boundingRect(new_text.text()).width() > max_size) {
-            std::string str = new_text.text().toStdString();
+            std::string str = (QString::fromLocal8Bit(new_text.text().toLocal8Bit())).toStdString();
             str.erase(str.length() - 4, 1);
             new_text.setText(str.c_str());
         }
@@ -172,11 +171,11 @@ void CategoryWidget::updateName() {
 
 void CategoryWidget::updateTasksAmount() {
     _tasks_amount->setText(std::to_string(self().getTasks().size()).c_str());
-    _tasks_amount->setStyleSheet("font-size: 14px;");
 }
 
 void CategoryWidget::updateWidget() {
     //updateIcon();
     updateTasksAmount();
     updateName();
+    _category_list_widget->updateMainTaskList();
 }

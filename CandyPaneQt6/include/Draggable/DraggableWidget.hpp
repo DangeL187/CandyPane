@@ -18,7 +18,7 @@ public:
     QHBoxLayout& getLayout() {
         return _layout;
     }
-    void loadBackgroundStyle();
+    void loadBackgroundStyle(unsigned short widget_type);
     void selectBackground(bool value);
     void setId(unsigned long long int id);
     virtual void setWidgetVisible(bool value) = 0;

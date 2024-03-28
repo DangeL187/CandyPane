@@ -1,6 +1,7 @@
 #ifndef CANDYPANEQT_TASKWIDGET_HPP
 #define CANDYPANEQT_TASKWIDGET_HPP
 
+#include <QCheckBox>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -25,10 +26,9 @@ public:
     void exec();
     [[nodiscard]] candypane::Task& self() const;
     void loadStyle();
-    void select(bool value, bool background_only = false);
     void setEditNameFocus();
-    void setWidgetVisible(bool value) override {}
-    void updateWidget() override {}
+    void setWidgetVisible(bool value) override;
+    void updateWidget() override;
 
 private:
     /*=====================TaskWidget======================*/
@@ -37,31 +37,29 @@ private:
 
     /*======================contents=======================*/
     //LineEditWidgetName*   _edit_name{};
-    QWidget*                _icon{};
+    QCheckBox*              _checkbox{};
     QLabel*                 _name{};
-    QWidget*                _select{};
-    QLabel*                 _tasks_amount{};
+    QCheckBox*              _star{};
     /*=====================================================*/
 
     /*=======================events========================*/
-    //void mousePressEvent(QMouseEvent* event) override;
-    //void mouseMoveEvent(QMouseEvent* event) override;
-    //void mouseReleaseEvent(QMouseEvent* event) override;
-    //void resizeEvent(QResizeEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
     /*=====================================================*/
 
     /*=====================initializers====================*/
+    void initCheckbox();
     void initEditName();
-    void initIcon();
-    void initName();
-    void initSelect();
-    void initTasksAmount();
     void initLayout();
+    void initName();
+    void initStar();
     /*=====================================================*/
 
-    //void updateIcon();
+    void updateCheckbox();
     void updateName();
-    void updateTasksAmount();
+    void updateStar();
 };
 
 #endif //CANDYPANEQT_TASKWIDGET_HPP

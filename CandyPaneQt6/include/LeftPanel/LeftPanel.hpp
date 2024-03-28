@@ -9,10 +9,11 @@
 #include "AccountWidget.hpp"
 #include "Category/CategoryListWidget.hpp"
 #include "Category/NewListWidget.hpp"
+#include "MainTaskList/MainTaskList.hpp"
 
 class LeftPanel: public QFrame {
 public:
-    LeftPanel(candypane::CategoryList* category_list);
+    LeftPanel(candypane::CategoryList* category_list, MainTaskList* main_task_list);
 
     void checkHover();
 private:
@@ -22,7 +23,7 @@ private:
 
     /*===========================contents==========================*/
     AccountWidget                           _account_widget;
-    std::shared_ptr<CategoryListWidget>   _category_list_widget;
+    std::shared_ptr<CategoryListWidget>     _category_list_widget;
     std::shared_ptr<NewListWidget>          _new_list_widget;
     QScrollArea                             _scroll_area;
     QWidget                                 _scroll_area_widget;
@@ -31,7 +32,7 @@ private:
     /*=========================initializers========================*/
     void initCategoryListScrollArea();
     void initLayout();
-    void initModules(candypane::CategoryList* category_list);
+    void initModules(candypane::CategoryList* category_list, MainTaskList* main_task_list);
     /*=============================================================*/
 };
 

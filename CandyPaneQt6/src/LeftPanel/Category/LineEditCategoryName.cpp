@@ -7,7 +7,8 @@ void LineEditCategoryName::focusOutEvent(QFocusEvent* event) {
 void LineEditCategoryName::keyPressEvent(QKeyEvent* event) {
     if (event->key() == Qt::Key_Return) {
         _category_widget->exec();
+    } else {
+        QLineEdit::keyPressEvent(event);
     }
-    QLineEdit::keyPressEvent(event);
 }
 
