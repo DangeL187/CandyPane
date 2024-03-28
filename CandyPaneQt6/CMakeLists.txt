@@ -8,6 +8,22 @@ set(CMAKE_AUTOUIC ON)
 
 set(CANDYPANE_ROOT "../CandyPane")
 set(CANDYPANE_LIBS CandyPane)
+include_directories(${CANDYPANE_ROOT}/include)
+link_directories(${CANDYPANE_ROOT}/build)
+
+set(GTEST_ROOT "D:/googletest")
+add_library(gtest STATIC
+        D:/googletest/googletest/src/gtest-all.cc
+        D:/googletest/googletest/src/gtest-internal-inl.h
+        D:/googletest/googletest/include/gtest/gtest.h
+        D:/googletest/googletest/src/gtest-death-test.cc
+        D:/googletest/googletest/src/gtest-printers.cc
+        D:/googletest/googletest/src/gtest-test-part.cc
+        D:/googletest/googletest/src/gtest-typed-test.cc
+        D:/googletest/googletest/src/gtest_main.cc
+)
+include_directories(${GTEST_ROOT}/googletest/include)
+include_directories(${GTEST_ROOT}/googletest)
 
 set(CMAKE_PREFIX_PATH "D:/QT/6.6.2/mingw_64/lib/cmake/Qt6")
 find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
@@ -15,19 +31,15 @@ set(QT_LIBS Qt6::Core Qt6::Gui Qt6::Widgets)
 
 include_directories(include)
 
-# Configure CandyPane Core:
-include_directories(${CANDYPANE_ROOT}/include)
-link_directories(${CANDYPANE_ROOT}/build)
-
-file(GLOB HEADER_FILES  "${CANDYPANE_ROOT}/include/**/*.hpp"
-                        "${CANDYPANE_ROOT}/include/*.hpp"
+file(GLOB HEADER_FILES  "include/***/**/*.hpp"
                         "include/**/*.hpp"
                         "include/*.hpp")
-file(GLOB SOURCE_FILES  "src/**/*.cpp"
+file(GLOB SOURCE_FILES  "src/***/**/*.cpp"
+                        "src/**/*.cpp"
                         "src/*.cpp")
 
 add_executable(CandyPaneQt ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${QT_LIBS})
+target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${QT_LIBS} gtest)
 
 # Configure QT6:
 
