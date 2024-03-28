@@ -37,18 +37,6 @@ Category& CategoryList::getCategoryByName(const std::string& name) {
     throw(std::runtime_error("Failed to get category by name: Invalid index"));
 }
 
-Category& CategoryList::getSelectedCategory() {
-    if (!_categories.empty()) {
-        return getCategoryById(_selected_category_id);
-    } else {
-        throw(std::runtime_error("Failed to get selected category: CategoryList is empty"));
-    }
-}
-
-unsigned long long CategoryList::getSelectedCategoryId() const {
-    return _selected_category_id;
-}
-
 void CategoryList::insertCategory(unsigned long long index, const Category& category) {
     _categories.insert(_categories.begin() + index, category);
 }
@@ -73,10 +61,6 @@ void CategoryList::removeCategoryById(unsigned long long int id) {
     } else {
         throw(std::runtime_error("Failed to remove category by id: Invalid index"));
     }
-}
-
-void CategoryList::setSelectedCategoryId(unsigned long long category_id) {
-    _selected_category_id = category_id;
 }
 
 void CategoryList::swapCategoriesById(unsigned long long int id1, unsigned long long int id2) {
