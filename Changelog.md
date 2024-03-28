@@ -1,12 +1,12 @@
 # Changelog
 
-### 28.03.2024 - [Добавлен базовый визуал для MainTaskList]()
+### 28.03.2024 - [Добавлен базовый визуал для MainTaskList](https://github.com/DangeL187/CandyPane/commit/f65e42942b5b4d9e3391f56eb685caf96b9a4490)
 1. Теперь у каждого элемента, который нуждается в доступе к определённой категории будет своя переменная, хранящая ID выбранной категории
-2. Теперь CategoryListWidget имеет связь с TaskListWidget, чтобы обновлять его и менять выбранную категорию.
-3. Теперь стиль фона перетаскиваемых виджетов задаётся в DraggableWidget::loadBackgroundStyle в зависимости от вида виджета (после добавления кастомизации это может поменяться)
-4. Вместо setColor у WidgetBackground теперь есть setColor и setOffColor для настройки цвета фона в разных состояниях. По умолчанию цвет фона - прозрачный
-5. Добавлена шапка для MainTaskList
-6. Теперь у UpdatableWindow декларация и имплементация разделены
+2. Теперь [CategoryListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryListWidget.hpp) имеет связь с [TaskListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/Task/TaskListWidget.hpp), чтобы обновлять его и менять выбранную категорию.
+3. Теперь стиль фона перетаскиваемых виджетов задаётся в [DraggableWidget::loadBackgroundStyle](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Draggable/DraggableWidget.hpp) в зависимости от вида виджета (после добавления кастомизации это может поменяться)
+4. Вместо setColor у [WidgetBackground](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Draggable/WidgetBackground.hpp) теперь есть setColor и setOffColor для настройки цвета фона в разных состояниях. По умолчанию цвет фона - прозрачный
+5. Добавлена [шапка](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/Title/TaskListTitle.hpp) для [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp)
+6. Теперь у [UpdatableWindow](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/UpdatableWindow.hpp) декларация и имплементация разделены
 7. Исправлены баги с русскими символами
 8. Ну и само собой таск-виджеты теперь являются функциональными
 ### 23.03.2024 - [Немного изменена архитектура ядра, закончена Левая Панель, начата работа по добавлению MainTaskList](https://github.com/DangeL187/CandyPane/commit/62bc75b8c8a0190d25183fadddb73c8e16ecf827)
