@@ -14,52 +14,59 @@
 #include <Task/Category.hpp>
 
 #include "Draggable/DraggableWidget.hpp"
+#include "Draggable/LineEditName.hpp"
 
 class CategoryListWidget;
-class LineEditCategoryName;
 class OverlayDraggableWidget;
+class CategoryContextMenu;
 
 class CategoryWidget: public DraggableWidget {
 Q_OBJECT
 public:
     CategoryWidget(CategoryListWidget* category_list_widget, unsigned long long int id);
 
-    void exec();
     [[nodiscard]] candypane::Category& self() const;
+
+    void checkHover();
+    void duplicate();
     void loadStyle();
-    void select(bool value, bool background_only = false);
-    void setEditNameFocus();
+    void remove();
+    void select(bool value, bool background_only = false, bool highlight_border = false);
+    void setEditMode(bool value, bool first_time = true);
     void setWidgetVisible(bool value) override;
     void updateWidget() override;
 
 private:
-    /*===================CategoryWidget====================*/
-    CategoryListWidget*     _category_list_widget;
-    /*=====================================================*/
+    /*=======================CategoryWidget======================*/
+    CategoryListWidget*                     _category_list_widget;
+    std::shared_ptr<CategoryContextMenu>    _context_menu;
+    /*===========================================================*/
 
-    /*======================contents=======================*/
-    LineEditCategoryName*   _edit_name{};
-    QWidget*                _icon{};
-    QLabel*                 _name{};
-    QWidget*                _select{};
-    QLabel*                 _tasks_amount{};
-    /*=====================================================*/
+    /*=========================contents==========================*/
+    LineEditName<CategoryWidget>*           _edit_name{};
+    QWidget*                                _icon{};
+    QLabel*                                 _name{};
+    QWidget*                                _select{};
+    QLabel*                                 _tasks_amount{};
+    /*===========================================================*/
 
-    /*=======================events========================*/
+    /*==========================events===========================*/
+    void contextMenuEvent(QContextMenuEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
-    /*=====================================================*/
+    /*===========================================================*/
 
-    /*=====================initializers====================*/
+    /*========================initializers=======================*/
+    void initContextMenu();
     void initEditName();
     void initIcon();
     void initName();
     void initSelect();
     void initTasksAmount();
     void initLayout();
-    /*=====================================================*/
+    /*===========================================================*/
 
     //void updateIcon();
     void updateName();

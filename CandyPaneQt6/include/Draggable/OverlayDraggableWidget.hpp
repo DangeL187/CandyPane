@@ -18,6 +18,7 @@ private:
     std::shared_ptr<QHBoxLayout>    _layout;
     /*=================================================*/
 
+    QLayout* copyLayout(QLayout* layout, bool return_hbox_layout);
     void initLayout(QHBoxLayout& layout);
     void paintEvent(QPaintEvent *event) override;
 };

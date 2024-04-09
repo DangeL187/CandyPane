@@ -9,16 +9,16 @@ DraggableWidgetsList::DraggableWidgetsList(QWidget* parent_widget): QVBoxLayout(
 
 template <>
 void DraggableWidgetsList::addWidget(CategoryWidget* widget) {
-    insertWidget(count()-1, widget); // insert before spacer
+    insertWidget(count()-_empty_count, widget); // insert before necessary items in the layout
 }
 
 template <>
 void DraggableWidgetsList::addWidget(TaskWidget* widget) {
-    insertWidget(count()-1, widget); // insert before spacer
+    insertWidget(count()-_empty_count, widget); // insert before necessary items in the layout
 }
 
 void DraggableWidgetsList::clearLayout() {
-    while (count() > 1) {
+    while (count() > _empty_count) {
         auto* widget = qobject_cast<DraggableWidget*>(layout()->itemAt(0)->widget());
         removeWidget(widget);
         delete widget;
@@ -27,14 +27,14 @@ void DraggableWidgetsList::clearLayout() {
 
 template <>
 void DraggableWidgetsList::deselectAll<CategoryWidget>() {
-    for (int i = 0; i < count()-1; i++) {
+    for (int i = 0; i < count()-_empty_count; i++) {
         qobject_cast<CategoryWidget*>(layout()->itemAt(i)->widget())->select(false);
     }
 }
 
 template <>
 void DraggableWidgetsList::deselectAll<TaskWidget>() {
-    for (int i = 0; i < count()-1; i++) {
+    for (int i = 0; i < count()-_empty_count; i++) {
         qobject_cast<TaskWidget*>(layout()->itemAt(i)->widget())->selectBackground(false);
     }
 }
@@ -42,7 +42,7 @@ void DraggableWidgetsList::deselectAll<TaskWidget>() {
 int DraggableWidgetsList::getNewIndex() {
     int dif = -1;
     int new_index = -1;
-    for (int i = 0; i < count()-1; i++) {
+    for (int i = 0; i < count()-_empty_count; i++) {
         QWidget* widget = itemAt(i)->widget();
         QPoint pos = widget->mapToGlobal(widget->rect().center());
         int diff = abs(pos.y() - QCursor::pos().y()); // vertical difference between widget's center and mouse cursor
@@ -95,14 +95,18 @@ void DraggableWidgetsList::removeWidgetById(unsigned int widget_id) {
     removeWidget(widget);
     delete widget;
 
-    for (unsigned i = widget_id; i < count()-1; i++) {
+    for (unsigned i = widget_id; i < count()-_empty_count; i++) {
         auto* widget_i = qobject_cast<DraggableWidget*>(layout()->itemAt(int(i))->widget());
         widget_i->setId(widget_i->getId()-1);
     }
 }
 
+void DraggableWidgetsList::setEmptyCount(int empty_count) {
+    _empty_count = empty_count;
+}
+
 void DraggableWidgetsList::updateWidgets() {
-    for (int i = 0; i < count()-1; i++) {
+    for (int i = 0; i < count()-_empty_count; i++) {
         qobject_cast<DraggableWidget*>(layout()->itemAt(i)->widget())->updateWidget();
     }
 }

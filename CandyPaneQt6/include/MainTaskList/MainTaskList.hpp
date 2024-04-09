@@ -10,6 +10,7 @@
 
 class TaskListTitle;
 class TaskListWidget;
+class NewTaskWidget;
 
 class MainTaskList: public QFrame {
 public:
@@ -25,8 +26,7 @@ private:
     /*=============================================================*/
 
     /*===========================contents==========================*/
-    //std::shared_ptr<NewListWidget>          _new_list_widget;
-    std::shared_ptr<TaskListTitle>  _main_task_list_title;
+    std::shared_ptr<TaskListTitle>      _main_task_list_title;
     QScrollArea                         _scroll_area;
     QWidget                             _scroll_area_widget;
     std::shared_ptr<TaskListWidget>     _task_list_widget;

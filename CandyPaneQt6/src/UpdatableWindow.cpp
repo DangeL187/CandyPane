@@ -13,8 +13,10 @@ template<> bool UpdatableWindow<Application>::event(QEvent* event) {
     if (event->type() == QEvent::HoverMove) {
         _owner->checkHover();
         return true;
+    } else {
+        _owner->update();
+        return QMainWindow::event(event);
     }
-    return QMainWindow::event(event);
 }
 
 template<> void UpdatableWindow<Application>::resizeEvent(QResizeEvent* event) {

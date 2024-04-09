@@ -46,13 +46,17 @@ void Application::initSplitter() {
 
 void Application::initWindow() {
     _window = std::make_shared<UpdatableWindow<Application>>(this);
-    _window->resize(600, 400);
+    _window->resize(700, 400);
 
     auto* layout = _window->layout();
     delete layout;
 
     _window->setLayout(_main_layout->layout());
     _window->show();
+}
+
+void Application::update() {
+    _left_panel->updateLeftPanel();
 }
 
 void Application::updateWidth(int window_width) { // TODO: [BUGS] bad resizing, priority: low

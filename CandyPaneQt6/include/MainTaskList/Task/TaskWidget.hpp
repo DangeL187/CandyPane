@@ -1,6 +1,7 @@
 #ifndef CANDYPANEQT_TASKWIDGET_HPP
 #define CANDYPANEQT_TASKWIDGET_HPP
 
+#include <QCalendarWidget>
 #include <QCheckBox>
 #include <QFrame>
 #include <QHBoxLayout>
@@ -13,9 +14,11 @@
 #include <Task/Task.hpp>
 
 #include "Draggable/DraggableWidget.hpp"
+#include "Draggable/LineEditName.hpp"
 
+class TaskContentsWidget;
+class TaskContextMenu;
 class TaskListWidget;
-//class LineEditWidgetName; ?
 class OverlayDraggableWidget;
 
 class TaskWidget: public DraggableWidget {
@@ -23,43 +26,53 @@ class TaskWidget: public DraggableWidget {
 public:
     TaskWidget(TaskListWidget* task_list_widget, unsigned long long int id);
 
-    void exec();
     [[nodiscard]] candypane::Task& self() const;
+
+    void execCalendarMenu();
     void loadStyle();
-    void setEditNameFocus();
+    void remove();
+    void setEditMode(bool value, bool first_time = true);
     void setWidgetVisible(bool value) override;
     void updateWidget() override;
 
 private:
-    /*=====================TaskWidget======================*/
-    TaskListWidget*         _task_list_widget;
-    /*=====================================================*/
+    /*======================TaskWidget=======================*/
+    bool                                _is_visible = true;
+    QSize                               _old_size;
+    TaskListWidget*                     _task_list_widget;
+    /*=======================================================*/
 
-    /*======================contents=======================*/
-    //LineEditWidgetName*   _edit_name{};
-    QCheckBox*              _checkbox{};
-    QLabel*                 _name{};
-    QCheckBox*              _star{};
-    /*=====================================================*/
+    /*=======================contents========================*/
+    std::shared_ptr<QCalendarWidget>    _calendar_menu;
+    QCheckBox*                          _checkbox{};
+    std::shared_ptr<TaskContextMenu>    _context_menu;
+    LineEditName<TaskWidget>*           _edit_name{};
+    QCheckBox*                          _star{};
+    std::shared_ptr<TaskContentsWidget> _task_contents;
+    /*=======================================================*/
 
-    /*=======================events========================*/
+    /*========================events=========================*/
+    void contextMenuEvent(QContextMenuEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
-    /*=====================================================*/
+    /*=======================================================*/
 
-    /*=====================initializers====================*/
+    /*======================initializers=====================*/
+    void initCalendarMenu();
     void initCheckbox();
+    void initContextMenu();
     void initEditName();
     void initLayout();
-    void initName();
     void initStar();
-    /*=====================================================*/
+    void initTaskContents();
+    /*=======================================================*/
 
+    /*========================updaters=======================*/
     void updateCheckbox();
-    void updateName();
     void updateStar();
+    /*=======================================================*/
 };
 
 #endif //CANDYPANEQT_TASKWIDGET_HPP
