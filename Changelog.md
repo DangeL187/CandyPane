@@ -1,6 +1,6 @@
 # Changelog
 
-### 09.04.2024 - [Добавлены контекстные меню для CategoryWidget и TaskWidget, добавлен NewTaskWidget, улучшен вид TaskWidget]()
+### 09.04.2024 - [Добавлены контекстные меню для CategoryWidget и TaskWidget, добавлен NewTaskWidget, улучшен вид TaskWidget](https://github.com/DangeL187/CandyPane/commit/5607810497d6a80c5dc6e02c91a09d27706deb9b)
 1. Добавлено контекстное меню для CategoryWidget - удаление, переименование, копирование
 2. Добавлено контекстное меню для TaskWidget - удаление, переименование, назначение даты. <b> В будущем будет добавлена возможность установки напоминания </b>
 3. Добавлена кнопка добавления нового TaskWidget - NewTaskWidget
