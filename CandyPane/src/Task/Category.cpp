@@ -47,9 +47,9 @@ void Category::removeTask(const Task& task_to_remove) {
     std::erase(_tasks, task_to_remove);
 }
 
-void Category::removeTaskById(unsigned long long int id) {
-    if (id < _tasks.size()) {
-        _tasks.erase(_tasks.begin() + id);
+void Category::removeTaskById(unsigned long long int task_id) {
+    if (task_id < _tasks.size()) {
+        _tasks.erase(_tasks.begin() + signed(task_id));
     } else {
         throw(std::runtime_error("Failed to remove task by id: Invalid index"));
     }
