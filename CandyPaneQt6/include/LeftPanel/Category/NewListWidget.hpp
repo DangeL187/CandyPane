@@ -7,7 +7,7 @@
 
 class NewListWidget: public QPushButton {
 public:
-    explicit NewListWidget(CategoryListWidget* category_list);
+    explicit NewListWidget(CategoryListWidget* category_list_widget);
 
     void mousePressEvent(QMouseEvent* event) override;
 

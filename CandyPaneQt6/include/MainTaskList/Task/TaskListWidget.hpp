@@ -13,6 +13,7 @@
 */
 
 class CategoryListWidget;
+class NewTaskWidget;
 
 class TaskListWidget: public DraggableWidgetsList {
 public:
@@ -20,16 +21,22 @@ public:
 
     void addTaskWidget();
     void addTaskWidget(unsigned long long task_id);
+    void changeCategory(unsigned long long task_id);
+    void checkHover();
     candypane::Task& getTaskById(unsigned long long task_id);
     [[nodiscard]] unsigned long long getSelectedCategoryId() const;
     void loadTasks();
     void relocateTaskWidget(unsigned int task_id);
-    //void removeTaskWidgetById(unsigned int task_id);
+    void removeTaskWidgetById(unsigned int task_id);
+    void revealNewTaskWidget();
     void setSelectedCategoryId(unsigned long long category_id);
 
 private:
-    unsigned long long          _selected_id = 0;
-    candypane::CategoryList*    _category_list;
+    candypane::CategoryList*        _category_list;
+    std::shared_ptr<NewTaskWidget>  _new_task_widget;
+    unsigned long long              _selected_id = 0;
+
+    void initNewTaskWidget();
 };
 
 #endif //CANDYPANEQT_TASKLISTWIDGET_HPP

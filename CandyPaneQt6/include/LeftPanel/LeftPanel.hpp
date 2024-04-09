@@ -16,6 +16,7 @@ public:
     LeftPanel(candypane::CategoryList* category_list, MainTaskList* main_task_list);
 
     void checkHover();
+    void updateLeftPanel();
 private:
     /*=========================LeftPanel===========================*/
     QVBoxLayout                             _layout;
