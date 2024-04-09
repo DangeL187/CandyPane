@@ -1,42 +1,46 @@
 # Changelog
 
+### 09.04.2024 - [Добавлены контекстные меню для CategoryWidget и TaskWidget, добавлен NewTaskWidget, улучшен вид TaskWidget]()
+1. Добавлено контекстное меню для CategoryWidget - удаление, переименование, копирование
+2. Добавлено контекстное меню для TaskWidget - удаление, переименование, назначение даты. <b> В будущем будет добавлена возможность установки напоминания </b>
+3. Добавлена кнопка добавления нового TaskWidget - NewTaskWidget
 ### 28.03.2024 - [Добавлен базовый визуал для MainTaskList](https://github.com/DangeL187/CandyPane/commit/f65e42942b5b4d9e3391f56eb685caf96b9a4490)
 1. Теперь у каждого элемента, который нуждается в доступе к определённой категории будет своя переменная, хранящая ID выбранной категории
-2. Теперь [CategoryListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryListWidget.hpp) имеет связь с [TaskListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/Task/TaskListWidget.hpp), чтобы обновлять его и менять выбранную категорию.
-3. Теперь стиль фона перетаскиваемых виджетов задаётся в [DraggableWidget::loadBackgroundStyle](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Draggable/DraggableWidget.hpp) в зависимости от вида виджета (после добавления кастомизации это может поменяться)
-4. Вместо setColor у [WidgetBackground](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Draggable/WidgetBackground.hpp) теперь есть setColor и setOffColor для настройки цвета фона в разных состояниях. По умолчанию цвет фона - прозрачный
-5. Добавлена [шапка](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/Title/TaskListTitle.hpp) для [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp)
-6. Теперь у [UpdatableWindow](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/UpdatableWindow.hpp) декларация и имплементация разделены
+2. Теперь CategoryListWidget имеет связь с TaskListWidget, чтобы обновлять его и менять выбранную категорию.
+3. Теперь стиль фона перетаскиваемых виджетов задаётся в DraggableWidget::loadBackgroundStyle в зависимости от вида виджета (после добавления кастомизации это может поменяться)
+4. Вместо setColor у WidgetBackground теперь есть setColor и setOffColor для настройки цвета фона в разных состояниях. По умолчанию цвет фона - прозрачный
+5. Добавлена шапка для MainTaskList
+6. Теперь у UpdatableWindow декларация и имплементация разделены
 7. Исправлены баги с русскими символами
 8. Ну и само собой таск-виджеты теперь являются функциональными
 ### 23.03.2024 - [Немного изменена архитектура ядра, закончена Левая Панель, начата работа по добавлению MainTaskList](https://github.com/DangeL187/CandyPane/commit/62bc75b8c8a0190d25183fadddb73c8e16ecf827)
 1. Теперь за хранение ID выбранной категории отвечает CategoryList
 2. Удалён класс NewListButton
 3. UpdatableSplitter заменён на обычный QSplitter
-4. Теперь список категорий, а именно объект типа CategoryList хранится в классе [Application](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/Application.hpp) и передаётся в [LeftPanel](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/LeftPanel.hpp) и [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp)
+4. Теперь список категорий, а именно объект типа CategoryList хранится в классе Application и передаётся в LeftPanel и MainTaskList
 5. Улучшен функционал у всех классов, связанных с перемещением виджетов
-6. [OverlayDraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/OverlayDraggableWidget.hpp) теперь исправно копирует содержимое перетаскиваемого виджета
-7. Добавлена базовая реализация логики работы [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp), а также классы [TaskListWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/TaskListWidget.hpp) и [TaskWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/TaskWidget.hpp)
-8. <b> В следующем обновлении планируется реализовать внешний вид [MainTaskList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/MainTaskList/MainTaskList.hpp) </b>
+6. OverlayDraggableWidget теперь исправно копирует содержимое перетаскиваемого виджета
+7. Добавлена базовая реализация логики работы MainTaskList, а также классы TaskListWidget и TaskWidget
+8. <b> В следующем обновлении планируется реализовать внешний вид MainTaskList </b>
 ### 21.03.2024 - [Немного изменена архитектура, добавлены классы DraggableWidget и DraggableWidgetsList](https://github.com/DangeL187/CandyPane/commit/d602891dce1fc0e8f48db1c133504cd8e209b5b9)
 1. За фон перетаскиваемых виджетов теперь отвечает класс WidgetBackground
-2. Теперь все перетаскиваемые виджеты наследуются от класса [DraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/DraggableWidget.hpp)
-3. Все классы списков, в которых содержатся перетаскиваемые виджеты, теперь наследуются от класса [DraggableWidgetsList](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/DraggableWidgetsList.hpp)
-4. [OverlayDraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/OverlayDraggableWidget.hpp) временно не функционирует, <b> в следующем обновлении он сможет копировать содержимое перетаскиваемых виджетов </b>
+2. Теперь все перетаскиваемые виджеты наследуются от класса DraggableWidget
+3. Все классы списков, в которых содержатся перетаскиваемые виджеты, теперь наследуются от класса DraggableWidgetsList
+4. OverlayDraggableWidget временно не функционирует, <b> в следующем обновлении он сможет копировать содержимое перетаскиваемых виджетов </b>
 ### 21.03.2024 - [Исправлен баг с наведением на CategoryWidget (опять) и улучшение UI](https://github.com/DangeL187/CandyPane/commit/b87fbb14e273cd49c87ddea3dcd1466704a0b34e)
-1. Фон у [CategoryWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryWidget.hpp) не сбрасывался, если курсор выходил за пределы левой панели
+1. Фон у CategoryWidget не сбрасывался, если курсор выходил за пределы левой панели
 2. Убраны ненужные отступы
 3. Во многих местах был улучшен код
 4. Все классы связанные с категориями убраны в папку LeftPanel/Category
 5. Добавлена иконка приложения, в связи с ограничениями Qt <b> планируется написать кастомный TitleBar </b>
 ### 20.03.2024 - [Исправлен баг с наведением на CategoryWidget](https://github.com/DangeL187/CandyPane/commit/5495a9f57fd87430ee21400b41fd367318088147)
-1. Фон у [CategoryWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryWidget.hpp) не сбрасывался, если курсор выходил за пределы виджетов
-2. Теперь, при перемещении [OverlayDraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/OverlayDraggableWidget.hpp), он становится полупрозрачным
-3. Также исправлен баг с непрозрачными углами у [OverlayDraggableWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/OverlayDraggableWidget.hpp)
+1. Фон у CategoryWidget не сбрасывался, если курсор выходил за пределы виджетов
+2. Теперь, при перемещении OverlayDraggableWidget, он становится полупрозрачным
+3. Также исправлен баг с непрозрачными углами у OverlayDraggableWidget
 4. Теперь если имя категории слишком большое и не помещается в панель, оно будет сокращено. При этом реальное имя категории не меняется
 ### 19.03.2024 - [Исправлен баг с неправильным определением размера фона CategoryWidget](https://github.com/DangeL187/CandyPane/commit/da699ed93f07bb7b9d5b6e960d0db3b7fc8c2db6)
-1. Теперь размер фона динамически определяется с помощью переопределённого метода resizeEvent у [CategoryWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryWidget.hpp)
-2. Также фон теперь отображается у [CategoryWidget](https://github.com/DangeL187/CandyPane/blob/main/CandyPaneQt6/include/LeftPanel/Category/CategoryWidget.hpp), если на него навести курсор
+1. Теперь размер фона динамически определяется с помощью переопределённого метода resizeEvent у CategoryWidget
+2. Также фон теперь отображается у CategoryWidget, если на него навести курсор
 ### 19.03.2024 - [Изменена иерархия файлов и основная архитектура приложения](https://github.com/DangeL187/CandyPane/commit/79d07cbea3c8ce65190504a02e9de14586cd29a2)
 1. Приложение делится на два основных уровня - ядро (без привязки к фреймворку) и реализация (с помощью какого-либо фреймворка)
 2. Ядро описывает основную работу приложения без привязки к визуальному интерфейсу
