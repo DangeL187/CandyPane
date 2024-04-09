@@ -29,6 +29,8 @@ set(CMAKE_PREFIX_PATH "D:/QT/6.6.2/mingw_64/lib/cmake/Qt6")
 find_package(Qt6 COMPONENTS Core Gui Widgets REQUIRED)
 set(QT_LIBS Qt6::Core Qt6::Gui Qt6::Widgets)
 
+set(PYTHON "C:/Users/danii/PycharmProjects/CVCN/venv/Scripts/python.exe")
+
 include_directories(include)
 
 file(GLOB HEADER_FILES  "include/***/**/*.hpp"
@@ -39,7 +41,7 @@ file(GLOB SOURCE_FILES  "src/***/**/*.cpp"
                         "src/*.cpp")
 
 add_executable(CandyPaneQt ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${QT_LIBS} gtest)
+target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${FANCY_DEBUGGER_LIBS} ${QT_LIBS} gtest)
 
 # Configure QT6:
 
