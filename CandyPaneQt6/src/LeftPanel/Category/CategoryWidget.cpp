@@ -1,13 +1,15 @@
 #include <QPainter>
 
 #include "Draggable/OverlayDraggableWidget.hpp"
-#include "LeftPanel/Category/CategoryWidget.hpp"
+#include "LeftPanel/Category/CategoryContextMenu.hpp"
 #include "LeftPanel/Category/CategoryListWidget.hpp"
-#include "LeftPanel/Category/LineEditCategoryName.hpp"
+#include "LeftPanel/Category/CategoryWidget.hpp"
+#include "Draggable/LineEditName.hpp"
 
 CategoryWidget::CategoryWidget(CategoryListWidget* category_list_widget, unsigned long long int id):
     _category_list_widget(category_list_widget), DraggableWidget(id)
 {
+    initContextMenu();
     initSelect();
     initIcon();
     initTasksAmount();
@@ -18,29 +20,32 @@ CategoryWidget::CategoryWidget(CategoryListWidget* category_list_widget, unsigne
     selectBackground(true);
 }
 
-void CategoryWidget::exec() {
-    if (_edit_name->text() == "") {
-        _category_list_widget->removeCategoryWidgetById(getId());
-        return;
-    }
-    self().setName(_edit_name->text().toStdString());
-    _edit_name->clearFocus();
-    _edit_name->setVisible(false);
-    _layout.insertWidget(2, _name);
-    updateName();
-    _category_list_widget->updateMainTaskList();
-}
-
 candypane::Category& CategoryWidget::self() const {
     return _category_list_widget->getCategoryById(getId());
 }
 
-void CategoryWidget::initEditName() {
-    _edit_name = new LineEditCategoryName(this);
-    _edit_name->setStyleSheet("font-size: 14px;");
+void CategoryWidget::checkHover() {
+    if (underMouse()) {
+        select(true, true);
+    } else {
+        select(false, true);
+    }
+}
 
-    _layout.removeWidget(_name);
-    _layout.insertWidget(2, _edit_name);
+void CategoryWidget::contextMenuEvent(QContextMenuEvent* event) {
+    _context_menu->exec(event->globalPos());
+}
+
+void CategoryWidget::duplicate() {
+    _category_list_widget->duplicateCategoryWidgetById(getId());
+}
+
+void CategoryWidget::initContextMenu() {
+    _context_menu = std::make_shared<CategoryContextMenu>(this);
+}
+
+void CategoryWidget::initEditName() {
+    _edit_name = new LineEditName<CategoryWidget>(this);
 }
 
 void CategoryWidget::initIcon() {
@@ -79,24 +84,26 @@ void CategoryWidget::initLayout() {
 
 void CategoryWidget::loadStyle() {
     loadBackgroundStyle(0);
-    _name->setStyleSheet("background-color: transparent; font-size: 14px;");
-    _tasks_amount->setStyleSheet("background-color: transparent; font-size: 14px;");
+    _edit_name->setStyleSheet("font-size: 16px;");
+    _name->setStyleSheet("background-color: transparent; font-size: 16px;");
+    _tasks_amount->setStyleSheet("background-color: transparent; font-size: 16px;");
 }
 
 void CategoryWidget::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         select(true);
-        onMousePress(event);
-
-        setWidgetVisible(false);
-        _category_list_widget->deselectAll<CategoryWidget>();
+        if (onMousePress(event)) {
+            setWidgetVisible(false);
+            _category_list_widget->deselectAll<CategoryWidget>();
+        }
     }
 }
 
 void CategoryWidget::mouseMoveEvent(QMouseEvent* event) {
     if (event->buttons() & Qt::LeftButton) {
-        onMouseMove(event);
-        _category_list_widget->relocateCategoryWidget(_category_list_widget->indexOf(this));
+        if (onMouseMove(event)) {
+            _category_list_widget->relocateCategoryWidget(_category_list_widget->indexOf(this));
+        }
     }
 }
 
@@ -107,12 +114,16 @@ void CategoryWidget::mouseReleaseEvent(QMouseEvent* event) {
     }
 }
 
+void CategoryWidget::remove() {
+    _category_list_widget->removeCategoryWidgetById(getId());
+}
+
 void CategoryWidget::resizeEvent(QResizeEvent* event) {
     onResize(event);
     updateName();
 }
 
-void CategoryWidget::select(bool value, bool background_only) {
+void CategoryWidget::select(bool value, bool background_only, bool highlight_border) {
     if (!background_only) {
         if (value) {
             _category_list_widget->updateMainTaskList();
@@ -122,15 +133,41 @@ void CategoryWidget::select(bool value, bool background_only) {
             _select->setStyleSheet("background-color: transparent;");
         }
     }
+
     if (value) {
-        selectBackground(true);
+        selectBackground(true, highlight_border);
     } else if (_select->styleSheet() == "background-color: transparent;") {
         selectBackground(false);
+    } else {
+        selectBackground(true, false);
+    }
+
+    if (highlight_border) {
+        _category_list_widget->setHoveredCategoryId(signed(getId()));
+    } else if (getId() == _category_list_widget->getHoveredCategoryId()){
+        _category_list_widget->setHoveredCategoryId(-1);
     }
 }
 
-void CategoryWidget::setEditNameFocus() {
-    _edit_name->setFocus();
+void CategoryWidget::setEditMode(bool value, bool first_time) {
+    if (value) {
+        _layout.removeWidget(_name);
+        _layout.insertWidget(2, _edit_name);
+        _edit_name->setVisible(true);
+        _edit_name->setFocus();
+        if (!first_time) _edit_name->setText(self().getName().c_str());
+    } else {
+        if (_edit_name->text() == "") {
+            _category_list_widget->removeCategoryWidgetById(getId());
+            return;
+        }
+        self().setName(_edit_name->text().toStdString());
+        _edit_name->clearFocus();
+        _edit_name->setVisible(false);
+        _layout.insertWidget(2, _name);
+        updateName();
+        _category_list_widget->updateMainTaskList();
+    }
 }
 
 void CategoryWidget::setWidgetVisible(bool value) {
@@ -150,16 +187,16 @@ void CategoryWidget::setWidgetVisible(bool value) {
 void CategoryWidget::updateName() {
     _name->setText(self().getName().c_str());
 
-    QLabel new_text;
-    new_text.setStyleSheet(_name->styleSheet());
-    new_text.setText((self().getName() + "...").c_str());
-    new_text.setFont(_name->font());
-
     int name_width = _name->fontMetrics().boundingRect(_name->text()).width();
     int tasks_width = _tasks_amount->fontMetrics().boundingRect(_tasks_amount->text()).width();
     int max_size = width() - _select->width() - _icon->width() - tasks_width - 54;
 
     if (name_width > max_size) {
+        QLabel new_text;
+        new_text.setStyleSheet(_name->styleSheet());
+        new_text.setText((self().getName() + "...").c_str());
+        new_text.setFont(_name->font());
+
         while (new_text.fontMetrics().boundingRect(new_text.text()).width() > max_size) {
             std::string str = (QString::fromLocal8Bit(new_text.text().toLocal8Bit())).toStdString();
             str.erase(str.length() - 4, 1);
@@ -169,13 +206,14 @@ void CategoryWidget::updateName() {
     }
 }
 
-void CategoryWidget::updateTasksAmount() {
+void CategoryWidget::updateTasksAmount() { // todo: show only amount of uncompleted tasks
     _tasks_amount->setText(std::to_string(self().getTasks().size()).c_str());
 }
 
 void CategoryWidget::updateWidget() {
-    //updateIcon();
-    updateTasksAmount();
-    updateName();
-    _category_list_widget->updateMainTaskList();
+    if (!isDragging()) {
+        //updateIcon();
+        updateTasksAmount();
+        updateName();
+    }
 }

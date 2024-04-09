@@ -13,7 +13,11 @@ LeftPanel::LeftPanel(candypane::CategoryList* category_list, MainTaskList* main_
 void LeftPanel::checkHover() {
     for (int i = 0; i < _category_list_widget->count()-1; i++) {
         auto category_widget = qobject_cast<CategoryWidget*>(_category_list_widget->itemAt(i)->widget());
-        if (category_widget->underMouse()) {
+        QRect rect(category_widget->mapToGlobal(category_widget->rect().topLeft()), category_widget->size());
+
+        if (rect.contains(QCursor::pos()) && !category_widget->underMouse()) {
+            category_widget->select(true, true, true);
+        } else if (category_widget->underMouse()) {
             category_widget->select(true, true);
         } else {
             category_widget->select(false, true);
@@ -44,4 +48,11 @@ void LeftPanel::initLayout() {
 void LeftPanel::initModules(candypane::CategoryList* category_list, MainTaskList* main_task_list) {
     _category_list_widget = std::make_shared<CategoryListWidget>(&_scroll_area_widget, category_list, main_task_list);
     _new_list_widget = std::make_shared<NewListWidget>(_category_list_widget.get());
+}
+
+void LeftPanel::updateLeftPanel() {
+    for (int i = 0; i < _category_list_widget->count()-1; i++) {
+        auto category_widget = qobject_cast<CategoryWidget*>(_category_list_widget->itemAt(i)->widget());
+        category_widget->updateWidget();
+    }
 }
