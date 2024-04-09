@@ -41,7 +41,7 @@ file(GLOB SOURCE_FILES  "src/***/**/*.cpp"
                         "src/*.cpp")
 
 add_executable(CandyPaneQt ${SOURCE_FILES} ${HEADER_FILES})
-target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${FANCY_DEBUGGER_LIBS} ${QT_LIBS} gtest)
+target_link_libraries(CandyPaneQt ${CANDYPANE_LIBS} ${QT_LIBS} gtest)
 
 # Configure QT6:
 
